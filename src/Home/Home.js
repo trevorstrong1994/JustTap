@@ -1,9 +1,14 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, Button } from 'react-native';
-import { Icon } from 'native-base';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button } from 'react-native';
+import { Icon, Footer, FooterTab } from 'native-base';
 import firebase from 'react-native-firebase';
 import {GoogleSignin} from 'react-native-google-signin';
 import styles from './styles';
+
+// import components related to this screen
+import ImageSlider from './components/image_slider';
+import TabBar from './components/tabBar';
+import DashboardFooter from './components/footerTabs';
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -14,10 +19,10 @@ export default class HomeScreen extends React.Component {
             marginLeft: 90
         },
         headerRight: (
-            <Icon name='add' style={{fontSize: 25, color: '#0893CF', marginRight: 10}} />
+            <Icon name='add' style={{fontSize: 25, color: '#A7A9AB', marginRight: 10}} />
         ),
         headerLeft: (
-            <Icon name="settings" style={{fontSize: 25, color: '#0893CF', marginLeft: 10}}/>
+            <Icon name="settings" style={{fontSize: 25, color: '#A7A9AB', marginLeft: 10}} />
         )
     };
 
@@ -34,27 +39,20 @@ export default class HomeScreen extends React.Component {
             .signOut()
     }
 
-    googleSignout = () => {
-        GoogleSignin.signOut()
-            .then(() => {
-              console.log('out');
-            })
-            .catch((err) => {
-        });
-    }
-
     render() {
         const { currentUser } = this.state;
         return (
             <View style={styles.container}>
-                <Text>
-                    Hi {currentUser && currentUser.email}!
-                </Text>
-                <Button
-                    title="Log Out"
-                    onPress={this.handleLogout}
-                />
+            <View style={{ position: 'absolute', left: 10, right: 0, top: 0 }}>
+                <ImageSlider />
             </View>
-        )
+            <View style={{ position: 'absolute', top: 330, height: 250 }}>
+                <TabBar />
+            </View>
+                <View style={{ height: 50, width: '100%', left: 0, right: 0, bottom: 0, position: 'absolute' }}>
+                    <DashboardFooter />
+                </View>
+            </View>
+        );
     }
 }

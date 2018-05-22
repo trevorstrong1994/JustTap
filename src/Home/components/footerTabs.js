@@ -1,31 +1,25 @@
 import React, { Component } from 'react';
-import { Footer, FooterTab } from 'native-base';
+import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
 
-class DashboardFooter extends Component {
-    render() {
-        return(
-            <Footer>
+const DashboardFooter = () => {
+    return (
+            <Footer style={{ backgroundColor: '#0893CF' }}>
               <FooterTab>
                 <Button vertical>
-                  <Icon name="apps" />
-                  <Text>Apps</Text>
+                  <Icon name="card" style={{ color: '#fff'}} />
+                  <Text style={{ color: '#fff'}}>Expenses</Text>
                 </Button>
                 <Button vertical>
-                  <Icon name="camera" style={{ color: '#0893CF' }} />
-                  <Text style={{ color: '#0893CF' }}>Camera</Text>
+                  <Icon name="camera" style={{ color: '#fff'}} />
+                  <Text style={{ color: '#fff'}}>Camera</Text>
                 </Button>
                 <Button vertical active>
-                  <Icon active name="navigate" />
-                  <Text>Navigate</Text>
-                </Button>
-                <Button vertical>
-                  <Icon name="person" />
-                  <Text>Contact</Text>
+                  <Icon name="clipboard" style={{ color: '#fff'}} />
+                  <Text style={{ color: '#fff'}}>Reports</Text>
                 </Button>
               </FooterTab>
             </Footer>
-        );
-    }
+    )
 }
 
-export default FooterTab;
+export default DashboardFooter;
