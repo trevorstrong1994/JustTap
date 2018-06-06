@@ -6,11 +6,11 @@ import {GoogleSignin} from 'react-native-google-signin';
 import styles from './styles';
 
 // import components related to this screen
-import ImageSlider from './components/image_slider';
-import TabBar from './components/tabBar';
+import ImageSlider from './image_slider';
+import TabBar from './tabBar';
 import DashboardFooter from './components/footerTabs';
 
-export default class HomeScreen extends React.Component {
+export default class ExpensesScreen extends React.Component {
     static navigationOptions = {
         title: 'DASHBOARD',
         headerTintColor: '#fff',
@@ -49,9 +49,9 @@ export default class HomeScreen extends React.Component {
             <View style={{ position: 'absolute', top: 330, height: 250 }}>
                 <TabBar />
             </View>
-                <View style={{ height: 50, width: '100%', left: 0, right: 0, bottom: 0, position: 'absolute' }}>
-                    <DashboardFooter />
-                </View>
+            <View style={{ height: 50, width: '100%', left: 0, right: 0, bottom: 0, position: 'absolute' }}>
+                <DashboardFooter />
+            </View>
             </View>
         );
     }

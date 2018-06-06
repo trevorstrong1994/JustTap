@@ -33,7 +33,7 @@ const ImageSlider = () => {
             </View>
             <View style={styles.contentContainer}>
                 <Text style={{ fontSize: 20, fontWeight: '600', bottom: 50, color: '#A7A9AB' }}>GET UNLIMITED SCANS</Text>
-                <Text style={{ fontSize: 18, color: '#A7A9AB', top: 5, marginBottom: 40 }}>Faster processing and unlimited scans</Text>
+                <Text style={{ fontSize: 18, color: '#A7A9AB', top: 5, marginBottom: 60 }}>Faster processing and unlimited scans</Text>
                 <TouchableOpacity>
                     <Text style={styles.goPrimeBtn}>GO PRIME</Text>
                 </TouchableOpacity>
