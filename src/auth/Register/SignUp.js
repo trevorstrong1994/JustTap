@@ -20,8 +20,8 @@ export default class SignUpScreen extends React.Component {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(user => this.props.navigation.navigate('App'))
-        .catch(error => this.setState({ errorMessage: 'Sigup Authentication Failed' }))
+        .then(user => this.props.navigation.navigate('Main'))
+        .catch(error => this.setState({ errorMessage: 'SigUp Authentication Failed' }))
     }
 
     managePasswordVisibility = () => {

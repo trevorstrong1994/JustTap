@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, Icon } from 'react-native';
-import { SwitchNavigator, StackNavigator, DrawerNavigator, TabNavigator, DrawerItems, TabBarBottom, tabBarOptions, tabBarComponent, tabBarPosition, animationEnabled, swipeEnabled } from 'react-navigation';
+import { StyleSheet, Platform, Image, Text, View } from 'react-native';
+import {Icon} from 'native-base';
+import { SwitchNavigator, StackNavigator, DrawerNavigator, TabNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
 
 //import Authentication screens
 import Loading from './src/auth/Loading/Loading';
@@ -13,8 +14,12 @@ import ReportsScreen from './src/Dashboard/Reports/reports';
 //import ScanReceiptScreen from './src/Dashboard'/Receipt/receipt;
 
 //import Drawer Screens
+import Sidebar from './src/Dashboard/Settings/Sidebar';
 import TagsScreen from './src/Dashboard/Settings/Tags/tags';
 import IncomeTaxScreen from './src/Dashboard/Settings/IncomeTax/incomeTax';
+
+//import receipt manually screens
+import AddReceiptScreen from './src/Dashboard/AddReceipt/addReceipt';
 
 //Authentication screens
 const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen  });
@@ -25,7 +30,11 @@ const Dashboard = StackNavigator({
             Expenses: {
                 screen: ExpensesScreen,
                 navigationOptions: {
-                    tabBarLabel: 'Expenses'
+                    tabBarLabel: 'Expenses',
+                    tabBarIcon: ({ tintColor }) => {
+                        return <Icon name='add' style={{fontSize: 25, color: '#0893CF'}} />
+                    },
+
                 },
             },
             Reports: {
@@ -41,23 +50,38 @@ const Dashboard = StackNavigator({
                 activeTintColor: '#0893CF',
                 backgroundColor: '#fff',
                 inactiveTintColor: '#A7A9AB',
-                //showIcon: true,
                 indicatorStyle: {
                     backgroundColor: 'transparent'
                 },
                 style: {
                     backgroundColor: 'transparent',
                 },
-             }
+             },
         }),
+         //Add Drawer Screens
+         SettingsDrawer: DrawerNavigator(
+             {
+                 Tags: { screen: TagsScreen },
+                 IncomeTax: { screen: IncomeTaxScreen },
+             },
+             {
+             //render the content of the drawer
+             contentComponent: Sidebar,
+             drawerWidth: 300
+         }),
 });
+
+//Add Expense Screens
+const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
 
 // create our app's navigation stack
 const App = SwitchNavigator (
   {
     AuthLoading: Loading,
     Auth: AuthStack,
-    App: Dashboard,
+    Main: Dashboard,
+    //SideMenu: SettingsDrawer,
+    ReceiptScreens: AddReceipt,
   },
   {
     initialRouteName: 'AuthLoading',

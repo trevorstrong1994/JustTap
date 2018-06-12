@@ -6,10 +6,19 @@ const TagsScreen = () => {
         drawerLabel: 'tags',
     };
     return(
-        <View>
+        <View style={styles.container}>
             <Text style={{fontSize: 20}}>NO TAGS FOUND</Text>
         </View>
     );
 }
 
 export default TagsScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});

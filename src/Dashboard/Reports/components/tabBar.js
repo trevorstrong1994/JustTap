@@ -27,12 +27,6 @@ const TabBar = () => {
                            <Text style={{ color: '#A7A9AB', fontWeight: '600', fontSize: 18, marginBottom: 5, marginTop: 5 }}>Costs of goods bought for resale or goods used</Text>
                            <Text style={{ color: '#A7A9AB', fontSize: 18}}>£0.00</Text>
                        </View>
-                       <View style={{ borderColor: '#A7A9AB', borderBottomWidth: 1, width: '100%', marginTop: 10}}></View>
-                       <View style={{ flexDirection: 'column', margin: 5 }}>
-                           <Text style={{ color: '#A7A9AB', fontWeight: '600', fontSize: 18, marginBottom: 5, marginTop: 5 }}>Costs of goods bought for resale or goods used</Text>
-                           <Text style={{ color: '#A7A9AB', fontSize: 18}}>£0.00</Text>
-                       </View>
-                       <View style={{ borderColor: '#A7A9AB', borderBottomWidth: 1, width: '100%', marginTop: 10}}></View>
                     </View>
                 </Tab>
                 <Tab heading="TAGS" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}}>

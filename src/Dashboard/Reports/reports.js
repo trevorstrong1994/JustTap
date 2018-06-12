@@ -20,12 +20,14 @@ export default class ReportsScreen extends React.Component {
             marginLeft: 90
         },
         headerRight: (
-            <Icon name='add' style={{fontSize: 25, color: '#A7A9AB', marginRight: 15}} />
+            <Icon name='add'
+                style={{fontSize: 25, color: '#A7A9AB', marginRight: 15}}
+                onPress={() => this.props.navigation.navigate("ReceiptScreens")}
+            />
         ),
         headerLeft: (
             <Icon name="settings"
                 style={{fontSize: 25, color: '#A7A9AB', marginLeft: 15}}
-                onPress={() => this.props.navigation.navigate("OpenDrawer")}
             />
         ),
     };
