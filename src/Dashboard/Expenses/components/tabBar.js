@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, AppRegistry, Image, TouchableOpacity } from 'react-native';
-import { Tab, Tabs } from 'native-base';
+import { Tab, Tabs, Icon } from 'native-base';
 
 const TabBar = () => {
     return(

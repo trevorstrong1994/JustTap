@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, AppRegistry, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, AppRegistry, Image, TouchableOpacity, Icon } from 'react-native';
 import Carousel from 'react-native-carousel-view';
 
 const ImageSlider = () => {
@@ -34,9 +34,12 @@ const ImageSlider = () => {
             <View style={styles.contentContainer}>
                 <Text style={{ fontSize: 20, fontWeight: '600', bottom: 50, color: '#A7A9AB' }}>GET UNLIMITED SCANS</Text>
                 <Text style={{ fontSize: 18, color: '#A7A9AB', top: 5, marginBottom: 60 }}>Faster processing and unlimited scans</Text>
-                <TouchableOpacity>
-                    <Text style={styles.goPrimeBtn}>GO PRIME</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity>
+                        <View style={styles.goPrimeBtn}>
+                            {/*<Icon name="trophy" style={styles.buttonIcon} />*/}
+                            <Text style={styles.buttonText}>GO PRIME</Text>
+                        </View>
+                    </TouchableOpacity>
             </View>
         </Carousel>
     );
@@ -51,15 +54,21 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     goPrimeBtn: {
-        color: '#fff',
-       	textAlign: 'center',
        	backgroundColor: 'orange',
        	padding: 10,
-       	fontWeight: '500',
        	borderWidth: 1,
        	borderRadius: 6,
        	borderColor: 'orange',
        	width: 160,
        	height: 40
+    },
+    buttonText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '500'
+    },
+    buttonIcon: {
+        fontSize: 30,
+        color: '#fff'
     }
 });

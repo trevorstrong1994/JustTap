@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const ReceiptForm = () => {
     return(
-        <View style={{ }}>
+        <View>
             <Form>
                 <Item floatingLabel>
                     <Icon name="print" style={{fontSize: 30, color: '#0893CF'}} />

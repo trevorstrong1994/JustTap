@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableHighlight } from 'react-native';
 import { Icon, Footer, FooterTab } from 'native-base';
 import firebase from 'react-native-firebase';
 import { TabBarBottom } from 'react-navigation';
@@ -20,10 +20,12 @@ export default class ExpensesScreen extends React.Component {
             marginLeft: 90
         },
         headerRight: (
-            <Icon name='add'
-                style={{fontSize: 25, color: '#A7A9AB', marginRight: 15}}
-                onPress={()=>{ navigation.navigate("ReceiptScreens")}}
-            />
+            <TouchableHighlight>
+                <Icon name='add'
+                    style={{fontSize: 25, color: '#A7A9AB', marginRight: 15}}
+                    onPress={()=>{ navigation.navigate("ReceiptScreens")}}
+                />
+            </TouchableHighlight>
         ),
         headerLeft: (
             <Icon name="settings"

@@ -1,19 +1,30 @@
 import React, {Component} from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, Modal, TouchableHighlight } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, Modal, TouchableHighlight, BackHandler } from 'react-native';
 import { Tab, Tabs, Icon, Form, Item, Input, Label, Content, DatePicker } from 'native-base';
 import ReceiptForm from './receiptForm';
+import ExpenseImage from './expenseImage';
 
 class AddReceiptScreen extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tableHead: ['Name', 'Quantity', 'Price (£)'],
-            tableData: [
-                ['', '', ''],
-            ]
-        }
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+        this.state = {}
     }
-    static navigationOptions = ({ navigation, screenProps }) => ({
+
+    componentWillMount() {
+	    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+	}
+
+	componentWillUnmount() {
+	    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+	}
+
+    handleBackButtonClick() {
+        this.props.navigation.navigate('Main');
+        return true;
+    }
+
+    static navigationOptions = ({ navigation, screenProps }) => ({ 
         title: 'ADD RECEIPT MANUALLY',
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -76,12 +87,7 @@ class AddReceiptScreen extends Component {
                         </Content>
                     </Tab>
                     <Tab heading="Expense Image" tabStyle={{backgroundColor: '#fff'}} activeTabStyle={{backgroundColor: '#ffa500'}} textStyle={{color: '#ffa500'}} activeTextStyle={{color: '#fff'}}>
-                        <View style={{flex: 0, justifyContent: 'center', alignItems: 'center'}}>
-                            <Image
-                               style={{width: 300, height: 320}}
-                               source={require('../../assets/addreciept/default3x.png')}
-                            />
-                        </View>
+                        <ExpenseImage />
                     </Tab>
                 </Tabs>
         );

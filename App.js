@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, TouchableOpacity } from 'react-native';
 import {Icon} from 'native-base';
 import { SwitchNavigator, StackNavigator, DrawerNavigator, TabNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
 
@@ -11,7 +11,7 @@ import SignUpScreen from './src/auth/Register/SignUp';
 //import Tab screens
 import ExpensesScreen from './src/Dashboard/Expenses/Expenses';
 import ReportsScreen from './src/Dashboard/Reports/reports';
-//import ScanReceiptScreen from './src/Dashboard'/Receipt/receipt;
+import ScanReceiptScreen from './src/Dashboard/ScanReceipt/scanReceipt';
 
 //import Drawer Screens
 import Sidebar from './src/Dashboard/Settings/Sidebar';
@@ -20,6 +20,7 @@ import IncomeTaxScreen from './src/Dashboard/Settings/IncomeTax/incomeTax';
 
 //import receipt manually screens
 import AddReceiptScreen from './src/Dashboard/AddReceipt/addReceipt';
+//import Loader from '../../utils/loader';
 
 //Authentication screens
 const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen  });
@@ -31,16 +32,26 @@ const Dashboard = StackNavigator({
                 screen: ExpensesScreen,
                 navigationOptions: {
                     tabBarLabel: 'Expenses',
-                    tabBarIcon: ({ tintColor }) => {
-                        return <Icon name='add' style={{fontSize: 25, color: '#0893CF'}} />
+                    tabBarIcon: () => {
+                        return <Icon name='card' style={{fontSize: 25, color: '#0893CF'}} />
                     },
-
                 },
+            },
+            Camera: {
+                screen: ScanReceiptScreen,
+                    navigationOptions: {
+                        tabBarIcon: () => {
+                            return <Icon name='camera' style={{fontSize: 30, color: '#ffa500',}} />
+                        },
+                    },
             },
             Reports: {
                 screen: ReportsScreen,
                 navigationOptions: {
-                    tabBarLabel: 'Reports'
+                    tabBarLabel: 'REPORTS',
+                    tabBarIcon: () => {
+                        return <Icon name='clipboard' style={{fontSize: 25, color: '#0893CF'}} />
+                    },
                 },
             }
         }, {
@@ -50,11 +61,15 @@ const Dashboard = StackNavigator({
                 activeTintColor: '#0893CF',
                 backgroundColor: '#fff',
                 inactiveTintColor: '#A7A9AB',
+                inactiveBackgroundColor: 'red',
+                showIcon: true,
                 indicatorStyle: {
                     backgroundColor: 'transparent'
                 },
                 style: {
-                    backgroundColor: 'transparent',
+                    backgroundColor: '#f1f3f4',
+                    borderTopWidth: 1,
+                    borderTopColor: '#A7A9AB'
                 },
              },
         }),

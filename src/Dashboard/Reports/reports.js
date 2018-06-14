@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity } from 'react-native';
 import { Icon, Footer, FooterTab } from 'native-base';
 import firebase from 'react-native-firebase';
 import { TabBarBottom } from 'react-navigation';
@@ -12,7 +12,7 @@ import TabBar from './components/tabBar';
 //import DashboardFooter from './components/footerTabs';
 
 export default class ReportsScreen extends React.Component {
-    static navigationOptions = {
+    static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'DASHBOARD',
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -20,17 +20,20 @@ export default class ReportsScreen extends React.Component {
             marginLeft: 90
         },
         headerRight: (
-            <Icon name='add'
-                style={{fontSize: 25, color: '#A7A9AB', marginRight: 15}}
-                onPress={() => this.props.navigation.navigate("ReceiptScreens")}
-            />
+            <TouchableOpacity>
+                <Icon name='add'
+                    style={{fontSize: 25, color: '#A7A9AB', marginRight: 15}}
+                    onPress={()=>{ navigation.navigate("ReceiptScreens")}}
+                />
+            </TouchableOpacity>
         ),
         headerLeft: (
             <Icon name="settings"
                 style={{fontSize: 25, color: '#A7A9AB', marginLeft: 15}}
+                onPress={() =>{ navigation.navigate("OpenDrawer")}}
             />
         ),
-    };
+    });
 
     state = { currentUser: null }
 
