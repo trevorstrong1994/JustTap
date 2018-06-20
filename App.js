@@ -26,7 +26,9 @@ import AddReceiptScreen from './src/Dashboard/AddReceipt/addReceipt';
 const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen  });
 
 //Dashboard screen which includes the tab navigation (Expenses & Reports)
-const Dashboard = StackNavigator({
+
+const Dashboard = DrawerNavigator({
+    Stacks: StackNavigator({
         Tabs: TabNavigator({
             Expenses: {
                 screen: ExpensesScreen,
@@ -40,10 +42,10 @@ const Dashboard = StackNavigator({
             Camera: {
                 screen: ScanReceiptScreen,
                     navigationOptions: {
-                        tabBarIcon: () => {
-                            return <Icon name='camera' style={{fontSize: 30, color: '#ffa500',}} />
-                        },
+                    tabBarIcon: () => {
+                        return <Icon name='camera' style={{fontSize: 30, color: '#ffa500',}} />
                     },
+                },
             },
             Reports: {
                 screen: ReportsScreen,
@@ -73,19 +75,11 @@ const Dashboard = StackNavigator({
                 },
              },
         }),
-         //Add Drawer Screens
-         SettingsDrawer: DrawerNavigator(
-             {
-                 Tags: { screen: TagsScreen },
-                 IncomeTax: { screen: IncomeTaxScreen },
-             },
-             {
-             //render the content of the drawer
-             contentComponent: Sidebar,
-             drawerWidth: 300
-         }),
+    }),
+}, {
+    drawerWidth: 330,
+    contentComponent: props => <Sidebar {...props} />,
 });
-
 //Add Expense Screens
 const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
 
@@ -95,7 +89,6 @@ const App = SwitchNavigator (
     AuthLoading: Loading,
     Auth: AuthStack,
     Main: Dashboard,
-    //SideMenu: SettingsDrawer,
     ReceiptScreens: AddReceipt,
   },
   {

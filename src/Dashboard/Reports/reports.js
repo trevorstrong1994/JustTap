@@ -30,7 +30,7 @@ export default class ReportsScreen extends React.Component {
         headerLeft: (
             <Icon name="settings"
                 style={{fontSize: 25, color: '#A7A9AB', marginLeft: 15}}
-                onPress={() =>{ navigation.navigate("OpenDrawer")}}
+                onPress={() => navigation.navigate('DrawerOpen')}
             />
         ),
     });

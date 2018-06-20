@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, Modal, TouchableHighlight } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, Modal, TouchableOpacity } from 'react-native';
 import { Icon, Form, Item, Input, Label, Content } from 'native-base';
 import PropTypes from 'prop-types';
 
@@ -10,8 +10,6 @@ const ScanReceiptScreen = () => {
     return(
         <View style={styles.container}>
             <Text>Camera</Text>
-        </View>
-        {/*
             <View style={{height: 70, width: 70, borderRadius: 70/2, backgroundColor: '#ffa500', borderWidth: 1, borderColor: '#A7A9AB'}}>
                 <TouchableOpacity>
                     <Icon name='camera'
@@ -19,7 +17,7 @@ const ScanReceiptScreen = () => {
                     />
                 </TouchableOpacity>
             </View>
-        */}
+        </View>
     );
 }
 
