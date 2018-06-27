@@ -20,18 +20,22 @@ export default class ReportsScreen extends React.Component {
             marginLeft: 90
         },
         headerRight: (
-            <TouchableOpacity>
-                <Icon name='add'
-                    style={{fontSize: 25, color: '#A7A9AB', marginRight: 15}}
-                    onPress={()=>{ navigation.navigate("ReceiptScreens")}}
-                />
+            <TouchableOpacity onPress={() =>{navigation.navigate("ReceiptScreens")}}>
+                <View style={{ marginRight: 15 }}>
+                    <Icon name="add"
+                        style={{fontSize: 25, color: '#A7A9AB'}}
+                    />
+                </View>
             </TouchableOpacity>
         ),
         headerLeft: (
-            <Icon name="settings"
-                style={{fontSize: 25, color: '#A7A9AB', marginLeft: 15}}
-                onPress={() => navigation.navigate('DrawerOpen')}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')}>
+                <View style={{ marginRight: 15 }}>
+                    <Icon name="settings"
+                        style={{fontSize: 25, color: '#A7A9AB', marginLeft: 15}}
+                    />
+                </View>
+            </TouchableOpacity>
         ),
     });
 
@@ -56,7 +60,7 @@ export default class ReportsScreen extends React.Component {
                     <ExpenseTotal />
                 </View>
             <View style={{ position: 'absolute', top: 330 }}>
-                <TabBar />
+                    <TabBar />
             </View>
                 <View style={{ height: 50, width: '100%', left: 0, right: 0, bottom: 0, position: 'absolute' }}>
 

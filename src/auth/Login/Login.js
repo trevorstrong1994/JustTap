@@ -63,7 +63,7 @@ export default class LoginScreen extends React.Component {
                                 autoCapitalize="none"
                                 placeholder="Email Address"
                                 placeholderTextColor="A7A9AB"
-                                maxLength={15}
+                                maxLength={30}
                                 value={this.state.email}
                                 onChangeText={email => this.setState({ email })}
                             />
@@ -75,7 +75,7 @@ export default class LoginScreen extends React.Component {
                                 autoCapitalize="none"
                                 placeholder="Password"
                                 placeholderTextColor="A7A9AB"
-                                maxLength={8}
+                                maxLength={12}
                                 value={this.state.password}
                                 onChangeText={password => this.setState({ password })}
                             />

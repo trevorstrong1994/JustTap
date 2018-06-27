@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableHighlight } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import { Icon, Footer, FooterTab } from 'native-base';
 import firebase from 'react-native-firebase';
 import { TabBarBottom } from 'react-navigation';
@@ -20,18 +20,22 @@ export default class ExpensesScreen extends React.Component {
             marginLeft: 90
         },
         headerRight: (
-            <TouchableHighlight>
-                <Icon name='add'
-                    style={{fontSize: 25, color: '#A7A9AB', marginRight: 15}}
-                    onPress={()=>{ navigation.navigate("ReceiptScreens")}}
-                />
-            </TouchableHighlight>
+            <TouchableOpacity onPress={() =>{navigation.navigate("ReceiptScreens")}}>
+                <View style={{ marginRight: 15 }}>
+                    <Icon name="add"
+                        style={{fontSize: 25, color: '#A7A9AB'}}
+                    />
+                </View>
+            </TouchableOpacity>
         ),
         headerLeft: (
-            <Icon name="settings"
-                style={{fontSize: 25, color: '#A7A9AB', marginLeft: 15}}
-                onPress={() => navigation.navigate('DrawerOpen')}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')}>
+                <View style={{ marginRight: 15 }}>
+                    <Icon name="settings"
+                        style={{fontSize: 25, color: '#A7A9AB', marginLeft: 15}}
+                    />
+                </View>
+            </TouchableOpacity>
         ),
     });
 

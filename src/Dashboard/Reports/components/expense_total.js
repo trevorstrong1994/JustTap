@@ -14,8 +14,9 @@ class ExpenseTotal extends Component {
     }
 
     handlePress(index) {
-        this.setState({ content: `example content`, index});
+        this.setState({ content: `Segment ${index + 1} selected !!!`, index });
     }
+
     render() {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20, width: 350, marginLeft: 20 }}>
@@ -29,6 +30,7 @@ class ExpenseTotal extends Component {
                   activeTabStyle={styles.activeTab}
                   tabTextStyle={styles.textTab}
                 />
+               <Text>{this.state.content}</Text>
             </View>
         );
     }

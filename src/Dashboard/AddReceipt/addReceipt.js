@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, Modal, TouchableHighlight, BackHandler } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, Modal, TouchableOpacity, BackHandler } from 'react-native';
 import { Tab, Tabs, Icon, Form, Item, Input, Label, Content, DatePicker } from 'native-base';
 import ReceiptForm from './receiptForm';
 import ExpenseImage from './expenseImage';
@@ -37,10 +37,13 @@ class AddReceiptScreen extends Component {
             />
         ),
         headerLeft: (
-            <Icon name="close"
-                style={{fontSize: 25, color: '#A7A9AB', marginLeft: 15}}
-                onPress={() =>{ navigation.navigate("Main")}}
-            />
+            <TouchableOpacity onPress={() =>{navigation.navigate("Main")}}>
+                <View style={{ marginLeft: 15 }}>
+                    <Icon name="close"
+                        style={{fontSize: 25, color: '#A7A9AB'}}
+                    />
+                </View>
+            </TouchableOpacity>
         ),
     });
 

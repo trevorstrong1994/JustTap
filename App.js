@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, TouchableHighlight } from 'react-native';
 import {Icon} from 'native-base';
 import { SwitchNavigator, StackNavigator, DrawerNavigator, TabNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
 
@@ -12,6 +12,7 @@ import SignUpScreen from './src/auth/Register/SignUp';
 import ExpensesScreen from './src/Dashboard/Expenses/Expenses';
 import ReportsScreen from './src/Dashboard/Reports/reports';
 import ScanReceiptScreen from './src/Dashboard/ScanReceipt/scanReceipt';
+import CameraButton from './src/Dashboard/cameraButton';
 
 //import Drawer Screens
 import Sidebar from './src/Dashboard/Settings/Sidebar';
@@ -26,7 +27,6 @@ import AddReceiptScreen from './src/Dashboard/AddReceipt/addReceipt';
 const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen  });
 
 //Dashboard screen which includes the tab navigation (Expenses & Reports)
-
 const Dashboard = DrawerNavigator({
     Stacks: StackNavigator({
         Tabs: TabNavigator({
@@ -34,29 +34,27 @@ const Dashboard = DrawerNavigator({
                 screen: ExpensesScreen,
                 navigationOptions: {
                     tabBarLabel: 'Expenses',
-                    tabBarIcon: () => {
-                        return <Icon name='card' style={{fontSize: 25, color: '#0893CF'}} />
-                    },
-                },
-            },
-            Camera: {
-                screen: ScanReceiptScreen,
-                    navigationOptions: {
-                    tabBarIcon: () => {
-                        return <Icon name='camera' style={{fontSize: 30, color: '#ffa500',}} />
-                    },
+                    tabBarIcon: ({ focused }) => (
+                        focused
+                        ? <Icon name='card' style={{fontSize: 25, color: '#0893CF'}} />
+                        : <Icon name='card' style={{fontSize: 25, color: '#A7A9AB'}} />
+                    ),
                 },
             },
             Reports: {
                 screen: ReportsScreen,
                 navigationOptions: {
                     tabBarLabel: 'REPORTS',
-                    tabBarIcon: () => {
-                        return <Icon name='clipboard' style={{fontSize: 25, color: '#0893CF'}} />
-                    },
+                    tabBarIcon: ({ focused }) => (
+                        focused
+                        ? <Icon name='clipboard' style={{fontSize: 25, color: '#0893CF'}} />
+                        : <Icon name='clipboard' style={{fontSize: 25, color: '#A7A9AB'}} />
+                    ),
                 },
-            }
+            },
         }, {
+             //tabBarComponent: CameraButton,
+             initialRouteName: 'Expenses',
              tabBarPosition: 'bottom',
              swipeEnabled: false,
              tabBarOptions: {
@@ -80,8 +78,16 @@ const Dashboard = DrawerNavigator({
     drawerWidth: 330,
     contentComponent: props => <Sidebar {...props} />,
 });
+
 //Add Expense Screens
 const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
+
+//Drawer Screens
+const SideBarStack = StackNavigator({
+    IncomeTaxScreen: { screen: IncomeTaxScreen },
+    TagsScreen: { screen: TagsScreen },
+
+});
 
 // create our app's navigation stack
 const App = SwitchNavigator (
@@ -89,6 +95,7 @@ const App = SwitchNavigator (
     AuthLoading: Loading,
     Auth: AuthStack,
     Main: Dashboard,
+    SideBar: SideBarStack,
     ReceiptScreens: AddReceipt,
   },
   {
