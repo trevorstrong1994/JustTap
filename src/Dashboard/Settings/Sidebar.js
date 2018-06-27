@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { AppRegistry, Image, StatusBar, StyleSheet, Platform, View, ScrollView, TouchableOpacity } from "react-native";
+import { AppRegistry, Image, StatusBar, StyleSheet, Platform, View, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { Container, Content, Text, List, ListItem, Body, Right, Left, Switch, Icon } from "native-base";
 import {NavigationActions, StackNavigator} from 'react-navigation';
 import firebase from 'react-native-firebase';
@@ -7,13 +7,15 @@ import { GoogleSignin } from 'react-native-google-signin';
 import PropTypes from 'prop-types';
 
 export default class Sidebar extends Component {
-    state = { currentUser: null }
+    state = { currentUser: null, saveReceipt: false, appendReceipt: false }
 
+    //Pull through current user information (email)
     componentDidMount() {
         const { currentUser } = firebase.auth()
         this.setState({ currentUser })
     }
 
+    //function that handles two different logout authentications (Firebase & Google)
     handleLogout = () => {
         GoogleSignin.revokeAccess()
             .then(() => GoogleSignin.signOut())
@@ -27,7 +29,21 @@ export default class Sidebar extends Component {
             .signOut()
     }
 
+    //function that calls the 'handleLogout' function
+    alertLogout = () => {
+        Alert.alert(
+            'JUSTTAP',
+             'Are you sure you want to logout?',
+              [
+                {text: 'Confirm', onPress: this.handleLogout.bind(this)},
+                {text: 'Cancel', onPress:() => console.log('Cancel Pressed'), style: 'cancel'},
+              ],
+              { cancelable: false }
+        )
+    }
+
 	render() {
+	    {/*  */}
 	    const { currentUser } = this.state;
 		return(
 			<Container>
@@ -73,7 +89,10 @@ export default class Sidebar extends Component {
                                         <Text>Save receipts as photos</Text>
                                     </Body>
                                     <Right>
-                                        <Switch value={false} />
+                                        <Switch
+                                            value={this.state.saveReceipt}
+                                            onValueChange={(saveReceipt) => this.setState({saveReceipt})}
+                                        />
                                     </Right>
                                 </ListItem>
                                 <ListItem icon style={{ marginTop: 5, marginBottom: 5 }}>
@@ -84,7 +103,10 @@ export default class Sidebar extends Component {
                                         <Text>Append location to receipts</Text>
                                     </Body>
                                     <Right>
-                                        <Switch value={false} />
+                                        <Switch
+                                            value={this.state.appendReceipt}
+                                            onValueChange={(appendReceipt) => this.setState({appendReceipt})}
+                                        />
                                     </Right>
                                 </ListItem>
                                 <ListItem icon style={{ marginTop: 5, marginBottom: 5 }}>
@@ -167,7 +189,7 @@ export default class Sidebar extends Component {
                                         <Icon name="arrow-forward" />
                                     </Right>
                                 </ListItem>
-                                <ListItem icon style={{ marginTop: 5, marginBottom: 5 }} onPress={this.handleLogout.bind(this)}>
+                                <ListItem icon style={{ marginTop: 5, marginBottom: 5 }} onPress={this.alertLogout.bind(this)}>
                                     <Left>
                                         <Icon name="log-out" style={styles.icon} />
                                     </Left>
