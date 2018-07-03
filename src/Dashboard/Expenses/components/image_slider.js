@@ -36,7 +36,7 @@ const ImageSlider = () => {
                 <Text style={{ fontSize: 18, color: '#A7A9AB', top: 5, marginBottom: 60 }}>Faster processing and unlimited scans</Text>
                     <TouchableOpacity>
                         <View style={styles.goPrimeBtn}>
-                            {/*<Icon name="trophy" style={styles.buttonIcon} />*/}
+                            {/*<Icon name="trophy" style={{color: '#fff' }} />*/}
                             <Text style={styles.buttonText}>GO PRIME</Text>
                         </View>
                     </TouchableOpacity>

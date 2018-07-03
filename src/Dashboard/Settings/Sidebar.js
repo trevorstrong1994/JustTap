@@ -24,7 +24,7 @@ export default class Sidebar extends Component {
             })
             .done()
 
-        firebase
+         firebase
             .auth()
             .signOut()
     }
@@ -42,17 +42,17 @@ export default class Sidebar extends Component {
         )
     }
 
-	render() {
-	    {/*  */}
+	render() { 
+	    {/* create variable to show the current user logged in */}
 	    const { currentUser } = this.state;
 		return(
 			<Container>
 				<Content>
                     <View style={styles.imageCover}>
-                      <Image
-                        style={styles.logo}
-                        source={require('../../assets/Profile/profile2x.png')}
-                       />
+                        <Image
+                            style={styles.logo}
+                            source={require('../../assets/Profile/profile2x.png')}
+                        />
                         <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18 }}> {currentUser && currentUser.email} </Text>
                     </View>
                     <View style={styles.sidebar}>
@@ -64,7 +64,7 @@ export default class Sidebar extends Component {
                                         <Icon name="pricetag" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>TAGS</Text>
+                                        <Text style={styles.sidebarText}>TAGS</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
@@ -75,7 +75,7 @@ export default class Sidebar extends Component {
                                         <Icon name="document" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Income Tax</Text>
+                                        <Text style={styles.sidebarText}>Income Tax</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
@@ -86,7 +86,7 @@ export default class Sidebar extends Component {
                                         <Icon name="download" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Save receipts as photos</Text>
+                                        <Text style={styles.sidebarText}>Save receipts as photos</Text>
                                     </Body>
                                     <Right>
                                         <Switch
@@ -100,7 +100,7 @@ export default class Sidebar extends Component {
                                         <Icon name="pin" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Append location to receipts</Text>
+                                        <Text style={styles.sidebarText}>Append location to receipts</Text>
                                     </Body>
                                     <Right>
                                         <Switch
@@ -109,34 +109,34 @@ export default class Sidebar extends Component {
                                         />
                                     </Right>
                                 </ListItem>
-                                <ListItem icon style={{ marginTop: 5, marginBottom: 5 }}>
+                                <ListItem icon style={{ marginTop: 5, marginBottom: 5 }} onPress={() => this.props.navigation.navigate("ReferFriend")}>
                                     <Left>
                                         <Icon name="person" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Refer a friend</Text>
+                                        <Text style={styles.sidebarText}>Refer a friend</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
                                     </Right>
                                 </ListItem>
-                                <ListItem icon style={{ marginTop: 5, marginBottom: 5 }}>
+                                <ListItem icon style={{ marginTop: 5, marginBottom: 5 }} onPress={() => this.props.navigation.navigate("PDFexport")}>
                                     <Left>
                                         <Icon name="image" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>PDF Export</Text>
+                                        <Text style={styles.sidebarText}>PDF Export</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
                                     </Right>
                                 </ListItem>
-                                <ListItem icon style={{ marginTop: 5, marginBottom: 5 }}>
+                                <ListItem icon style={{ marginTop: 5, marginBottom: 5 }} onPress={() => this.props.navigation.navigate("CSVexport")}> 
                                     <Left>
                                         <Icon name="images" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>CSV Export</Text>
+                                        <Text style={styles.sidebarText}>CSV Export</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
@@ -150,7 +150,7 @@ export default class Sidebar extends Component {
                                         <Icon name="star" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Rate JustTap</Text>
+                                        <Text style={styles.sidebarText}>Rate JustTap</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
@@ -161,7 +161,7 @@ export default class Sidebar extends Component {
                                         <Icon name="call" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Support</Text>
+                                        <Text style={styles.sidebarText}>Support</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
@@ -172,7 +172,7 @@ export default class Sidebar extends Component {
                                         <Icon name="home" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Legal</Text>
+                                        <Text style={styles.sidebarText}>Legal</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
@@ -183,7 +183,7 @@ export default class Sidebar extends Component {
                                         <Icon name="lock" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Change Password</Text>
+                                        <Text style={styles.sidebarText}>Change Password</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
@@ -194,7 +194,7 @@ export default class Sidebar extends Component {
                                         <Icon name="log-out" style={styles.icon} />
                                     </Left>
                                     <Body>
-                                        <Text>Log Out</Text>
+                                        <Text style={styles.sidebarText}>Log Out</Text>
                                     </Body>
                                     <Right>
                                         <Icon name="arrow-forward" />
@@ -243,6 +243,9 @@ const styles = StyleSheet.create({
     },
     icon: {
         color: '#0893CF'
+    },
+    sidebarText: {
+        fontSize: 16
     },
     footerContainer: {
         marginLeft: 65

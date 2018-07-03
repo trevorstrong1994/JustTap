@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity, BackHandler } from 'react-native';
 import { Container, Header, Body, Icon, Button } from "native-base";
 
 class TagsScreen extends Component {
-
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'TAGS',
         headerTintColor: '#fff',
@@ -29,10 +28,19 @@ class TagsScreen extends Component {
         ),
     });
 
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton() {
+        this.props.navigation.navigate.popToTop();
+        return true;
+    }
+
     render() {
-        return(
+        return (
             <View style={styles.container}>
-                <Text style={{fontSize: 20}}>NO TAGS FOUND</Text>
+                <Text style={{fontSize: 25}}>NO TAGS FOUND</Text>
             </View>
         );
     }
