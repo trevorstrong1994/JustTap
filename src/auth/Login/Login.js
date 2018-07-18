@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Button, Image, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, Image, ImageBackground, TouchableOpacity, ActivityIndicator, ScrollView} from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Icon, H1 } from 'native-base';
 import firebase from 'react-native-firebase';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
@@ -45,67 +45,69 @@ export default class LoginScreen extends React.Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <ImageBackground
-                source={require('../../assets/login-bg/login-bg.png')}
-                style={{ width: '100%', height: '100%'}}>
-                    <Image
-                        style={{width: 300, height: 115, marginLeft: 55, marginTop: 100}}
-                        source={require('../../assets/logos/logo2.png')}
-                    />
-                    {this.state.errorMessage &&
-                        <Text style={{ color: 'red', textAlign: 'center', fontSize: 18, top: 60 }}>
-                        {this.state.errorMessage}
-                    </Text>}
-                    <View style={styles.loginSection}>
-                        <Item>
-                            <Input
-                                autoCapitalize="none"
-                                placeholder="Email Address"
-                                placeholderTextColor="A7A9AB"
-                                maxLength={30}
-                                value={this.state.email}
-                                onChangeText={email => this.setState({ email })}
-                            />
-                        </Item>
-                        <Item>
-                            <Input
-                                type="password"
-                                secureTextEntry={this.state.hidePassword}
-                                autoCapitalize="none"
-                                placeholder="Password"
-                                placeholderTextColor="A7A9AB"
-                                maxLength={12}
-                                value={this.state.password}
-                                onChangeText={password => this.setState({ password })}
-                            />
-                            <TouchableOpacity activeOpacity={0.8} style={styles.visibilityBtn} onPress={this.managePasswordVisibility}>
-                                <Image
-                                    source={( this.state.hidePassword) ? require('../../assets/password_icons/hide.png') : require('../../assets/password_icons/view.png')}
-                                    style={{resizeBtn: 'contain', height: '100%', width: '100%'}}
+            <ScrollView>
+                <View style={styles.container}>
+                    <ImageBackground
+                    source={require('../../assets/login-bg/login-bg.png')}
+                    style={{ width: '100%', height: '100%'}}>
+                        <Image
+                            style={{width: 300, height: 115, marginLeft: 55, marginTop: 100}}
+                            source={require('../../assets/logos/logo2.png')}
+                        />
+                        {this.state.errorMessage &&
+                            <Text style={{ color: 'red', textAlign: 'center', fontSize: 18, top: 60 }}>
+                            {this.state.errorMessage}
+                        </Text>}
+                        <View style={styles.loginSection}>
+                            <Item>
+                                <Input
+                                    autoCapitalize="none"
+                                    placeholder="Email Address"
+                                    placeholderTextColor="A7A9AB"
+                                    maxLength={30}
+                                    value={this.state.email}
+                                    onChangeText={email => this.setState({ email })}
                                 />
-                            </TouchableOpacity>
-                        </Item>
-                        <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                        <View style={styles.connectGoogle}>
-                            <Text style={{ color: '#a7a9ab', fontSize: 18, textAlign: 'center' }}>OR {'\n'} CONNECT WITH</Text>
-                            <GoogleSigninButton
-                                style={{width: 50, height: 50, marginTop: 15, marginLeft: 40}}
-                                size={GoogleSigninButton.Size.Icon}
-                                color={GoogleSigninButton.Color.Dark}
-                                onPress={this.googleLogin}
-                            />
+                            </Item>
+                            <Item>
+                                <Input
+                                    type="password"
+                                    secureTextEntry={this.state.hidePassword}
+                                    autoCapitalize="none"
+                                    placeholder="Password"
+                                    placeholderTextColor="A7A9AB"
+                                    maxLength={12}
+                                    value={this.state.password}
+                                    onChangeText={password => this.setState({ password })}
+                                />
+                                <TouchableOpacity activeOpacity={0.8} style={styles.visibilityBtn} onPress={this.managePasswordVisibility}>
+                                    <Image
+                                        source={( this.state.hidePassword) ? require('../../assets/password_icons/hide.png') : require('../../assets/password_icons/view.png')}
+                                        style={{resizeBtn: 'contain', height: '100%', width: '100%'}}
+                                    />
+                                </TouchableOpacity>
+                            </Item>
+                            <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                            <View style={styles.connectGoogle}>
+                                <Text style={{ color: '#a7a9ab', fontSize: 18, textAlign: 'center' }}>OR {'\n'} CONNECT WITH</Text>
+                                <GoogleSigninButton
+                                    style={{width: 50, height: 50, marginTop: 15, marginLeft: 40}}
+                                    size={GoogleSigninButton.Size.Icon}
+                                    color={GoogleSigninButton.Color.Dark}
+                                    onPress={this.googleLogin}
+                                />
+                            </View>
+                          <TouchableOpacity onPress={this.handleLogin}>
+                            <Text style={styles.loginButton}>Login</Text>
+                          </TouchableOpacity>
+                          <View style={styles.noAccountOptionLink}>
+                            <Text style={styles.noAccountYet}>Don't have an account yet?</Text>
+                            <Text style={styles.signupLink} onPress={() => this.props.navigation.navigate("SignUp")}>Sign Up</Text>
+                          </View>
                         </View>
-                      <TouchableOpacity onPress={this.handleLogin}>
-                        <Text style={styles.loginButton}>Login</Text>
-                      </TouchableOpacity>
-                      <View style={styles.noAccountOptionLink}>
-                        <Text style={styles.noAccountYet}>Don't have an account yet?</Text>
-                        <Text style={styles.signupLink} onPress={() => this.props.navigation.navigate("SignUp")}>Sign Up</Text>
-                      </View>
+                    </ImageBackground>
                     </View>
-                </ImageBackground>
-                </View>
+                </ScrollView>    
         )
     }
 }
