@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import { Icon, Footer, FooterTab } from 'native-base';
-import firebase from 'react-native-firebase';
+import firebase from 'react-native-firebase';   
 import { TabBarBottom } from 'react-navigation';
-import styles from './styles';
-
+import styles from './styles';  
+    
 // import components related to this screen
 import ImageSlider from './components/image_slider';
 import TabBar from './components/tabBar';
@@ -16,7 +16,8 @@ export default class ExpensesScreen extends React.Component {
         headerTintColor: '#fff',
         headerTitleStyle: {
             color: '#A7A9AB',
-            marginLeft: 90
+            textAlign: 'center',
+            width: '90%'
         },
         headerRight: (
             <TouchableOpacity onPress={() =>{navigation.navigate("ReceiptScreens")}}>
@@ -36,17 +37,16 @@ export default class ExpensesScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={{ position: 'absolute', left: 10, right: 0, top: 0 }}>
-                    <ImageSlider />
+            <ScrollView>
+                <View style={styles.container}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: 15, marginBottom: 50 }}>
+                        <ImageSlider />
+                    </View>
+                    <View style={{ flex: 2, height: 250 }}>
+                        <TabBar />
+                    </View>
                 </View>
-                <View style={{ position: 'absolute', top: 330, height: 250 }}>
-                    <TabBar />
-                </View>
-                <View style={{ height: 50, width: '100%', left: 0, right: 0, bottom: 0, position: 'absolute' }}>
-                
-                </View>
-            </View>
+            </ScrollView>
         );
     }
 }

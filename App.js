@@ -11,8 +11,6 @@ import SignUpScreen from './src/auth/Register/SignUp';
 //import Tab screens
 import ExpensesScreen from './src/Dashboard/Expenses/Expenses';
 import ReportsScreen from './src/Dashboard/Reports/reports';
-import ScanReceiptScreen from './src/Dashboard/ScanReceipt/scanReceipt';
-import CameraButton from './src/Dashboard/cameraButton';
 import TabBar from './src/Dashboard/tabBar';
 
 //import Drawer Screens
@@ -25,7 +23,10 @@ import CSVexport from './src/Dashboard/Settings/csvExport/csvExport';
 
 //import receipt manually screens
 import AddReceiptScreen from './src/Dashboard/AddReceipt/addReceipt';
-//import Loader from '../../utils/loader';
+
+//import camera receipt screen
+import TakePictureScreen from './src/Dashboard/Receipt/takePicture';
+import ScanReceiptScreen from './src/Dashboard/Receipt/receipt';
 
 //Authentication screens
 const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen  });
@@ -42,7 +43,6 @@ const Dashboard = DrawerNavigator({
             },
         }, {
              tabBarComponent: TabBar,
-             initialRouteName: 'Expenses',
              tabBarPosition: 'bottom',
              swipeEnabled: false,
         }),
@@ -54,6 +54,9 @@ const Dashboard = DrawerNavigator({
 
 //Add Expense Screens
 const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
+
+//Add Camera Screens
+const AddReceiptCamera = StackNavigator({ Camera: TakePictureScreen, ScanReceipt: ScanReceiptScreen }); 
 
 //Drawer Screens
 const SideBarStack = StackNavigator({
@@ -72,6 +75,7 @@ const App = SwitchNavigator (
     Main: Dashboard,
     SideBar: SideBarStack,
     ReceiptScreens: AddReceipt,
+    UseCamera: AddReceiptCamera,
   },
   {
     initialRouteName: 'AuthLoading',

@@ -31,9 +31,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
             new RNCameraPackage(),
             new RNGoogleSigninPackage(),
-            new RNFirebasePackage(),
             new RNFetchBlobPackage(),
             new RNAWSCognitoPackage(),
               new RNFirebaseAuthPackage(),

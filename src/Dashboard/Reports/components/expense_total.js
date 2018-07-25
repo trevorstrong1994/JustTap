@@ -19,7 +19,7 @@ class ExpenseTotal extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20, width: 350, marginLeft: 20 }}>
+            <View style={{ width: 300 }}>
                 <SegmentControl
                   values={['2017-2018', '2016-2017']}
                   selectedIndex={this.state.index}

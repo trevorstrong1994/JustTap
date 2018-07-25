@@ -14,6 +14,14 @@ const styles = StyleSheet.create({
         marginLeft: 40,
         marginTop: 70
     },
+    logo: {
+        flex: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        width: 300, 
+        height: 115, 
+        marginTop: 100,
+    },
     forgotPassword: {
         color: '#0893CF',
         fontSize: 16,

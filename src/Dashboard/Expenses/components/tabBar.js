@@ -6,17 +6,17 @@ const TabBar = () => {
     return(
         <Tabs initialPage={0} tabBarUnderlineStyle={{ backgroundColor: 'orange' }}>
             <Tab heading="ALL" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}}>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', top: 40 }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ color: '#A7A9AB', fontSize: 18 }}>No records(s) found</Text>
                 </View>
             </Tab>
             <Tab heading="RECENT" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}}>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', top: 40 }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ color: '#A7A9AB', fontSize: 18 }}>No records(s) found</Text>
                 </View>
             </Tab>
             <Tab heading="PROCESSING" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}} >
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' , top: 40 }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ color: '#A7A9AB', fontSize: 18 }}>No records(s) found</Text>
             </View>
             </Tab>
