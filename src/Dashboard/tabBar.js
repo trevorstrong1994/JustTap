@@ -15,7 +15,7 @@ class TabBar extends Component {
 
 	render() {
     	return (
-	        <View style={{flex: 0, flexDirection: 'row', justifyContent: 'space-between', height: 80}}>
+	        <View style={{flex: 0.1, flexDirection: 'row', justifyContent: 'space-between'}}>
 	        	<View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around'}}>
 	        		<TouchableOpacity onPress={() => this.props.navigation.navigate("Expenses")}>
 	        			<View style={{ }}>
@@ -26,7 +26,7 @@ class TabBar extends Component {
 		        	
 		        	<TouchableOpacity onPress={this.toggleModal}>
 				    	<View style={styles.cameraBtn}>
-				        	<Icon name="camera" style={{fontSize: 35, color: '#fff', left: 20, top: 10}} />
+				        	<Icon name="camera" style={{fontSize: 35, color: '#fff', left: 20, top: 15}} />
 				        </View>
 		        	</TouchableOpacity>
 
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
 		borderRadius: 70/2, 
 		backgroundColor: '#ffa500', 
 		borderWidth: 1,  
-		borderColor: '#A7A9AB'
+		borderColor: '#A7A9AB',
+		top: 5
 	},
 	recieptTypes: {
 		textAlign: 'center',

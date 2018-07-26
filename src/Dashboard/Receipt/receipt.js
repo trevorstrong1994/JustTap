@@ -3,7 +3,16 @@ import { StyleSheet, Platform, Image, Text, View, ScrollView, Button } from 'rea
 import { Icon, Footer, FooterTab } from 'native-base';
 
 class ScanReceiptScreen extends React.Component {
-    render()  {
+	static navigationOptions = ({ navigation, screenProps }) => ({
+        title: 'COMPLETE RECEIPT',
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#A7A9AB',
+            textAlign: 'center',
+            width: '90%'
+        },
+    });
+    render() {
         return(
             <View style={{ flex: 1, alignItems: 'center' }}>
                 <Text> Receipt Screen</Text>

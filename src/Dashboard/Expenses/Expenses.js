@@ -42,7 +42,7 @@ export default class ExpensesScreen extends React.Component {
                     <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: 15, marginBottom: 50 }}>
                         <ImageSlider />
                     </View>
-                    <View style={{ flex: 2, height: 250 }}>
+                    <View style={{ flex: 2, height: 325 }}>
                         <TabBar />
                     </View>
                 </View>
