@@ -3,13 +3,16 @@ import { StyleSheet, Text, TextInput, View, Button, Image, ImageBackground, Touc
 import { Container, Header, Content, Form, Item, Input, Label, Icon, H1 } from 'native-base';
 import firebase from 'react-native-firebase';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+import ValidationComponent from 'react-native-form-validator';
+import {withRouter} from "react-router-native";
 import styles from './styles';
 
 export default class LoginScreen extends React.Component {
     static navigationOptions = {
         header: null,
     }
-    state = { email: '', password: '', errorMessage: ' ', hidePassword: true }
+    
+    state = { email: '', password: '', errorMessage: ' ', hidePassword: true };
 
     handleLogin = () => {
         const { email, password } = this.state
@@ -18,10 +21,6 @@ export default class LoginScreen extends React.Component {
           .signInWithEmailAndPassword(email, password)
           .then(() => this.props.navigation.navigate('Main'))
           .catch(error => this.setState({ errorMessage: 'Incorrect Email or Password' }))
-    }
-
-    managePasswordVisibility = () => {
-        this.setState({ hidePassword: !this.state.hidePassword });
     }
 
     // Calling this function will open Google for login.
@@ -38,9 +37,17 @@ export default class LoginScreen extends React.Component {
         const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
         console.info(JSON.stringify(currentUser.user.toJSON()));
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+            if (error.code === 'CANCELLED') {
+                //user cancelled the login flow
+            } else {
+                // other errors occured
+            }
       }
+    }
+
+    managePasswordVisibility = () => {
+        this.setState({ hidePassword: !this.state.hidePassword });
     }
 
     render() {
@@ -91,7 +98,7 @@ export default class LoginScreen extends React.Component {
                             <View style={styles.connectGoogle}>
                                 <Text style={{ color: '#a7a9ab', fontSize: 18, textAlign: 'center' }}>OR {'\n'} CONNECT WITH</Text>
                                 <GoogleSigninButton
-                                    style={{width: 50, height: 50, marginTop: 15, marginLeft: 40}}
+                                    style={{width: 50, height: 50, marginTop: 15, flex: 0, flexShrink: 1, alignSelf: 'center'}}
                                     size={GoogleSigninButton.Size.Icon}
                                     color={GoogleSigninButton.Color.Dark}
                                     onPress={this.googleLogin}

@@ -13,8 +13,9 @@ class ScanReceiptScreen extends React.Component {
         },
     });
     render() {
-        return(
-            <View style={{ flex: 1, alignItems: 'center' }}>
+        const imagePath = this.props.navigation.state.params.path;
+        return (
+            <View style={{ flex: 1, alignItems: 'center'}}>
                 <Text> Receipt Screen</Text>
             </View>
         )

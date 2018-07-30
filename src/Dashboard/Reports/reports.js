@@ -21,7 +21,7 @@ export default class ReportsScreen extends React.Component {
             width: '90%'
         },
         headerRight: (
-            <TouchableOpacity onPress={() =>{navigation.navigate("ReceiptScreens")}}>
+            <TouchableOpacity onPress={() => {navigation.navigate("ReceiptScreens")}}>
                 <View style={{ marginRight: 15 }}>
                     <Icon name="add" style={{fontSize: 25, color: '#A7A9AB'}} />
                 </View>
@@ -54,10 +54,10 @@ export default class ReportsScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: 35, marginBottom: 90 }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: 35, marginBottom: 150 }}>
                         <ExpenseTotal />
                     </View>
-                    <View style={{ flex: 2, height: 325 }}>
+                    <View style={{ flex: 2, height: 350 }}>
                         <TabBar />
                     </View>
                 </View>

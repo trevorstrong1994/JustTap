@@ -143,6 +143,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-resizer')
     compile project(':react-native-image-base64')
     implementation (project(':react-native-camera')) {
         exclude group: "com.android.support"

@@ -10,9 +10,17 @@ const styles = StyleSheet.create({
          flex: 1,
          flexDirection: 'column',
          alignItems: 'center',
+         alignSelf: 'center',
          width: 320,
-         marginLeft: 40,
          marginTop: 70
+    },
+    logo: {
+        flex: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        width: 300, 
+        height: 115, 
+        marginTop: 100,
     },
     signupButton: {
          color: '#fff',
@@ -30,13 +38,14 @@ const styles = StyleSheet.create({
      alreadyhaveAccount: {
          flex: 1,
          flexDirection: 'row',
-         marginTop: 40
+         marginTop: 25,
+         marginBottom: 10
      },
      haveAccount: {
          color: '#A7A9AB',
          fontSize: 16
      },
-     signinLink: {
+     signupLink: {
          color: '#0893CF',
          marginLeft: 10,
          fontSize: 16,

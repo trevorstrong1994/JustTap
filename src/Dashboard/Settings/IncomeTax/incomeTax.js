@@ -9,9 +9,7 @@ static navigationOptions = ({ navigation, screenProps }) => ({
         headerTitleStyle: {
             color: '#A7A9AB',
             textAlign: 'center',
-            alignSelf: 'center',
-            flex: 1,
-            marginLeft: -25
+            width: '80%'
         },
         headerLeft: (
             <TouchableOpacity onPress={() =>{navigation.navigate("Main")}}>
@@ -31,32 +29,34 @@ static navigationOptions = ({ navigation, screenProps }) => ({
 
     render() {
         return(
-            <View style={{ flex: 1 }}>
-                <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-                    <Image
-                        style={{width: 230, height: 220}}
-                        source={require('../../../assets/incomeTax_icons/incometax3x.png')}
-                    />
-                    <Text style={styles.taxSaving}>This Month tax saving is</Text>
-                    <Text style={styles.taxAmount}>£ 0.00</Text>
+            <ScrollView>
+                <View style={{ flex: 1 }}>
+                    <View style={{flex: 2, justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
+                        <Image
+                            style={{width: 230, height: 220}}
+                            source={require('../../../assets/incomeTax_icons/incometax3x.png')}
+                        />
+                        <Text style={styles.taxSaving}>This Month tax saving is</Text>
+                        <Text style={styles.taxAmount}>£ 0.00</Text>
+                    </View>
+                    <View style={{flex: 1, alignItems: 'center', flexDirection: 'column', backgroundColor: '#DCDCDC', marginTop: 20 }}>
+                        <Text style={styles.taxRate}>£0  X  TAX RATE 20% = </Text>
+                        <Text style={styles.taxRateAmount}>£ 0.00</Text>
+                        <Text style={{ fontSize: 16, textAlign: 'center', marginTop: 25, marginBottom: 10 }}>
+                            We apply a 20% tax rate to each expense {''}
+                                <Text>
+                                    to give you a better idea of how much you {''}
+                                </Text>
+                                <Text>
+                                    can save by scanning receipts with {''}
+                                </Text>
+                                <Text>
+                                    JustTap
+                                </Text>
+                        </Text>
+                    </View>
                 </View>
-                <View style={{flex: 1, alignItems: 'center', flexDirection: 'column', backgroundColor: '#DCDCDC', marginTop: 20 }}>
-                    <Text style={styles.taxRate}>£0  X  TAX RATE 20% = </Text>
-                    <Text style={styles.taxRateAmount}>£ 0.00</Text>
-                    <Text style={{ fontSize: 16, textAlign: 'center', marginTop: 25 }}>
-                        We apply a 20% tax rate to each expense {''}
-                            <Text>
-                                to give you a better idea of how much you {''}
-                            </Text>
-                            <Text>
-                                can save by scanning receipts with {''}
-                            </Text>
-                            <Text>
-                                JustTap
-                            </Text>
-                    </Text>
-                </View>
-            </View>
+            </ScrollView>
         )
     }
 }

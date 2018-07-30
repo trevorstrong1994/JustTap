@@ -3,6 +3,7 @@ package com.justtap;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import fr.snapp.imagebase64.RNImgToBase64Package;
 import org.reactnative.camera.RNCameraPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImageResizerPackage(),
             new RNImgToBase64Package(),
             new RNFirebasePackage(),
             new RNCameraPackage(),

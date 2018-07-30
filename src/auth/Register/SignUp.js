@@ -40,7 +40,7 @@ export default class SignUpScreen extends React.Component {
                         source={require('../../assets/login-bg/login-bg.png')}
                         style={{ width: '100%', height: '100%'}}>
                             <Image
-                                style={{width: 300, height: 115, marginLeft: 55, marginTop: 100}}
+                                style={styles.logo}
                                 source={require('../../assets/logos/logo2.png')}
                             />
                             <View style={styles.signupSection}>
@@ -121,7 +121,7 @@ export default class SignUpScreen extends React.Component {
                                 </View>
                                 <View style={styles.alreadyhaveAccount}>
                                     <Text style={styles.haveAccount}>Already have an account?</Text>
-                                    <Text style={styles.signinLink} onPress={() => this.props.navigation.navigate("Login")}>Log In</Text>
+                                    <Text style={styles.signupLink} onPress={() => this.props.navigation.navigate("Login")}>Log In</Text>
                                 </View>
                             </View>
      				</ImageBackground>

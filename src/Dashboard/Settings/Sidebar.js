@@ -22,9 +22,8 @@ export default class Sidebar extends Component {
             .then(() => {
                 this.setState({ user: null })
             })
-            .done()
 
-         firebase
+        firebase
             .auth()
             .signOut()
     }

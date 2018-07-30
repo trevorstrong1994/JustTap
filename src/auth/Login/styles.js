@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
+        alignSelf: 'center',
         width: 320,
-        marginLeft: 40,
         marginTop: 70
     },
     logo: {
@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     noAccountOptionLink: {
         flex: 1,
         flexDirection: 'row',
-        marginTop: 25
+        marginTop: 25,
+        marginBottom: 10
     },
     noAccountYet: {
         color: '#A7A9AB',

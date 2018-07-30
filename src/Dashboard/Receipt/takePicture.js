@@ -6,6 +6,8 @@ import Modal from "react-native-modal";
 import { RNCamera } from 'react-native-camera';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import ImgToBase64 from 'react-native-image-base64';
+import ImageResizer from 'react-native-image-resizer';
+import ReadImageData from 'NativeModules';
 import styles from './styles';
 
 class TakePictureScreen extends Component {
@@ -39,58 +41,73 @@ class TakePictureScreen extends Component {
     //function that uses the takePictureAsync instance method
     //takes a picure, saves in your app's cache directory and returns a promise
     takePicture = async function() {
-      const options = { quality: 0.5, fixOrientation: true, width: 400 }
+      const options = { quality: 0.5, fixOrientation: true, base64: true }
       const data = await this.camera.takePictureAsync(options)
       this.setState({ path: data.uri }); 
-      console.log(data.uri);
-      //console.log('base64 string is ' + base64String);
-      ImgToBase64.getBase64String(data.uri)
-      .then(base64String => {
-        console.log(base64String);
-      //.catch(err => error(err))
-      fetch('https://vision.infrrdapis.com/ocr/v2/receipt', {
+      //console.log(data.uri);
+      //console.log(data.base64.length);
+      //console.log(data.base64);
+
+      var bodyData = JSON.stringify({
+          "additionalFields" : ["totalbillamount"],
+          "getLines" : true,
+          "fileContent" : data.base64.replace(/\n/gi,"")
+        });
+
+      console.log(bodyData.length);
+
+      for (var i = 0; i < bodyData.length; i+=1000) {
+        //this.wait(1 * i).then(function(){
+        var chunk = bodyData.substring(i,i+1000);
+        console.log(chunk);
+      //});   
+      }
+
+        fetch('https://vision.infrrdapis.com/ocr/v2/receipt', {
       method: 'POST', 
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',  
           apikey: '1a6b1c3f-b368-424a-9643-9d587b60c537',
         },
-        body: JSON.stringify({
-          "additionalFields" : ["totalbillamount"],
-          "getLines" : true,
-          "fileContent" : base64String
-        }),        
+        body: bodyData,        
       }).then(response => response.json()).then(data => 
         {
           this.getStatus(data);
         }
       );
-      });
-    }
+    } 
+
     getStatus = function(id) {
-      var uri = 'https://vision.infrrdapis.com/ocr/v2/receipt/' + id; 
+      var uri = 'https://vision.infrrdapis.com/ocr/v2/receipt/' + id;
       console.log("Requesting : " + uri);
       fetch(uri, { 
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         apikey: '1a6b1c3f-b368-424a-9643-9d587b60c537' 
-      }}).then(response => response.json()).then(response => 
-        {   
+      }}).then(response => response.json()).then(response =>
+        {
           if(response.status === "ACKNOWLEDGED" || response.status === "UPLOADED" || response.status === "OCRED") {
-            //setTimout(() => { getStatus(id) }, 1000 )
-            this.getStatus(id);
+            setTimeout(() => { this.getStatus(id) }, 1000 )
+            //this.getStatus(id);
           }
           console.log(response)
         });
+    }
+
+    wait = function(time){
+      return new Promise(function(resolve, reject){
+        setTimeout(resolve, time);
+      })
     }
 
   //render camera along with the a segmented control tab
   renderCamera() {
     return ( 
       <View style={{ flex: 1, flexDirection: 'column' }}>
-            <RNCamera 
-              ref={ref => { 
+            <RNCamera
+              ref={ref => {
                 this.camera = ref;
               }}
               style={styles.preview}
