@@ -8,6 +8,7 @@ const ExpenseImage = (props) => {
         <Content>
             <View style={{flex: 0, justifyContent: 'center', alignItems: 'center'}}>
                 <Image
+                    onPress={() => this.props.navigation.navigate("TakePictureScreen")}
                     style={{width: 300, height: 320}}
                     source={require('../../assets/addreciept/default3x.png')}
                 />

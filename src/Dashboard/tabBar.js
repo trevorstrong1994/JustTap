@@ -18,7 +18,7 @@ class TabBar extends Component {
 	        <View style={{flex: 0.1, flexDirection: 'row', justifyContent: 'space-between'}}>
 	        	<View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around'}}>
 	        		<TouchableOpacity onPress={() => this.props.navigation.navigate("Expenses")}>
-	        			<View style={{ }}>
+	        			<View style={{ justifyContent: 'center', marginTop: 10 }}>
 		        			<Text>Expenses</Text>
 		        			<Icon name="card" style={{fontSize: 20, color: '#0893cf', alignSelf: 'center'}} />
 	        			</View>
@@ -31,7 +31,7 @@ class TabBar extends Component {
 		        	</TouchableOpacity>
 
 		        	<TouchableOpacity onPress={() => this.props.navigation.navigate("Reports")}>
-	        			<View style={{ }}>
+	        			<View style={{ justifyContent: 'center', marginTop: 10 }}>
 		        			<Text>Reports</Text>
 		        			<Icon name="clipboard" style={{fontSize: 20, color: '#0893cf', alignSelf: 'center'}} />
 		        		</View>
@@ -60,10 +60,13 @@ const styles = StyleSheet.create({
 		flex: 0,
 		flexShrink: 1,
 		alignSelf: 'center',
-		width: 160,
-		height: 95,
+		width: 175,
+		height: 100,
 		backgroundColor: '#D3D3D3',
-		marginTop: 300
+		marginTop: 400,
+		borderWidth: 1,
+		borderRadius: 10,
+		borderColor: '#0893cf'
 	},
 	cameraBtn: {
 		height: 70, 
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ffa500', 
 		borderWidth: 1,  
 		borderColor: '#A7A9AB',
-		top: 5
+		marginBottom: 15
 	},
 	recieptTypes: {
 		textAlign: 'center',

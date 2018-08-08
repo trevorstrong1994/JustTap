@@ -54,10 +54,10 @@ export default class ReportsScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: 35, marginBottom: 150 }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: 15, marginBottom: 270 }}>
                         <ExpenseTotal />
                     </View>
-                    <View style={{ flex: 2, height: 350 }}>
+                    <View style={{ flex: 2, height: 325 }}>
                         <TabBar />
                     </View>
                 </View>

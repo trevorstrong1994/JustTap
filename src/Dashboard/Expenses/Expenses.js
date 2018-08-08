@@ -17,7 +17,7 @@ export default class ExpensesScreen extends React.Component {
         headerTitleStyle: {
             color: '#A7A9AB',
             textAlign: 'center',
-            width: '80%'
+            width: '90%'
         },
         headerRight: (
             <TouchableOpacity onPress={() =>{navigation.navigate("ReceiptScreens")}}>
