@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import { StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import { Container, Header, Content, Footer, FooterTab, Button, Icon, ActionSheet, Tabs, Tab, List, ListItem } from 'native-base'; 
@@ -7,13 +5,12 @@ import { TabNavigator, TabBarBottom } from "react-navigation";
 import Modal from "react-native-modal";
 import { RNCamera } from 'react-native-camera';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
-import ImgToBase64 from 'react-native-image-base64';
 import styles from './styles';
 
 class TakePictureScreen extends Component {
   constructor(props) {
     super(props);
-    this.renderRow = this.renderRow.bind(this);
+    //this.renderRow = this.renderRow.bind(this);
     this.state = {
       selectedIndex: 0, 
       customStyleIndex: 0,
@@ -112,7 +109,7 @@ class TakePictureScreen extends Component {
               console.log("***** Total bill amount *****");
               console.log(response.data.fields.totalbillamount.value);
               console.log("***** Product Name *****");
-              console.log(response.data.lineItems.productName);
+              console.log(response.data.lineItems[0].productName);
               //console.log("state", this.state.results);
               this.setState({
                 dataSource: response.data
@@ -195,27 +192,10 @@ class TakePictureScreen extends Component {
     )
   }
 
-  renderRow(item) {
-    //var twoPlacedFloat = parseFloat(item.fields.totalbillamount.value).toFixed(2)
-    return (
-      <View>
-        <Text style={{ fontSize: 20 }}>Fields</Text>
-          <Text>{JSON.stringify(item.fields.merchantname.value)}</Text>
-          <Text>{JSON.parse(item.fields.totalbillamount.value).toFixed(2)}</Text>
-          <Text>{JSON.stringify(item.fields.billingdate.value)}</Text>
-
-        <Text style={{ fontSize: 20 }}>Line Items</Text>
-          <Text>{JSON.stringify(item.lineItems.productName)}</Text>
-          <Text>{JSON.stringify(item.lineItems.quantity)}</Text>
-          <Text>{JSON.stringify(item.lineItems.finalPrice)}</Text>
-      </View>
-    );
-  }
-
  //preview image once it has been captured
  renderImage() {
-  const dataSource = this.state.dataSource;
-    return ( 
+  //const dataSource = this.state.dataSource;
+    return (
       <View>
         <Image
           source={{uri: this.state.path}}
@@ -229,33 +209,13 @@ class TakePictureScreen extends Component {
           </Text>
           <Text
             style={styles.next}
-            onPress={() => this.props.navigation.navigate("ScanReceipt", {path: this.state.path} )}
+            onPress={() => this.props.navigation.navigate("ScanReceipt", {dataSource: this.state.dataSource, path: this.state.path} )}
           >Save Expense
           </Text>
-          <TouchableOpacity onPress={this.toggleModal}>
-            <View>
-              <Text style={styles.viewData}>View Data</Text>
-            </View>
-          </TouchableOpacity> 
-          <Modal
-            isVisible={this.state.isModalVisible}
-            onBackdropPress={() => this.setState({ isModalVisible: false })}
-          >
-          <View style={styles.modalData}>
-            <FlatList
-              data={[this.state.dataSource]}
-              renderItem={({item}) => this.renderRow(item)}
-            />
-          </View>
-        </Modal>  
         </View>
       </View>
     )
   }
-
-  /*renderItem() {
-    return <Text>{JSON.stringify(item.data.fields)}</Text>
-  }*/
 
   render() {
     return (

@@ -5,7 +5,7 @@ import firebase from 'react-native-firebase';
 import { TabBarBottom } from 'react-navigation';
 import styles from './styles';  
     
-// import components related to this screen
+//import components related to this screen
 import ImageSlider from './components/image_slider';
 import TabBar from './components/tabBar';
 import DashboardFooter from './components/footerTabs';

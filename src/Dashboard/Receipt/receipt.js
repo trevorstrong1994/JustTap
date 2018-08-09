@@ -12,16 +12,48 @@ class ScanReceiptScreen extends React.Component {
             width: '70%'
         },
     });
-    render(props) {
+    render() {
+        //const dataSource = this.state.dataSource;
         const receipt = this.props.navigation.state.params.path;
+        const receiptData = this.props.navigation.state.params.dataSource;
         return (
-            <View style={{ flex: 1, alignItems: 'center'}}>
+            <View>
                 <Image
                     source={{uri: receipt}}
                     style={styles.preview}
                 />
+                <FlatList
+                    data={[receiptData]}
+                    renderItem={({item}) => this.renderRow(item)}
+                />
             </View>
         )
+    }
+
+    renderRow(item) {
+        return (
+          <View>
+            <Text style={{ fontSize: 20 }}>Fields</Text>
+              <Text>Company {JSON.stringify(item.fields.merchantname.value)}</Text>
+              <Text>Bill Amount {JSON.parse(item.fields.totalbillamount.value).toFixed(2)}</Text>
+              <Text>Billing Date {JSON.stringify(item.fields.billingdate.value)}</Text>
+
+            <Text style={{ fontSize: 20, fontWeight: '600' }}>Line Items</Text>
+            <Text style={{ fontSize: 18 }}>Item 1</Text>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+              <Text>{JSON.stringify(item.lineItems[0].quantity)}</Text>
+              <Text>{JSON.stringify(item.lineItems[0].productName)}</Text>
+              <Text>{JSON.parse(item.lineItems[0].finalPrice).toFixed(2)}</Text>
+            </View>
+            
+            <Text style={{fontSize: 18}}>Item 2</Text>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}> 
+              <Text>{JSON.stringify(item.lineItems[1].quantity)}</Text>
+              <Text>{JSON.stringify(item.lineItems[1].productName)}</Text>
+              <Text>{JSON.parse(item.lineItems[1].finalPrice).toFixed(2)}</Text>
+            </View>
+          </View>
+        );
     }
 }
 
@@ -29,10 +61,8 @@ export default ScanReceiptScreen;
 
 const styles = StyleSheet.create({
   preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width
+    height: 300,
+    width: 300,
+    alignSelf: 'center'
   }
 });
