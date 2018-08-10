@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import { Icon, Footer, FooterTab } from 'native-base';
 import firebase from 'react-native-firebase';   
 import { TabBarBottom } from 'react-navigation';
 import styles from './styles';  
-    
+   
 //import components related to this screen
 import ImageSlider from './components/image_slider';
 import TabBar from './components/tabBar';
 import DashboardFooter from './components/footerTabs';
 
-export default class ExpensesScreen extends React.Component {
+class ExpensesScreen extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            showImage: null,
+            mounted: false
+        }
+    }
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'DASHBOARD',
         headerTintColor: '#fff',
@@ -35,6 +43,14 @@ export default class ExpensesScreen extends React.Component {
         ),
     });
 
+    componentDidMount() {
+        firebase.storage().ref('ReceiptData')
+        .getDownloadURL()
+        .then(url => {
+            this.setState({ showImage: url })
+        })
+    }
+
     render() {
         return (
             <ScrollView>
@@ -44,9 +60,17 @@ export default class ExpensesScreen extends React.Component {
                     </View>
                     <View style={{ flex: 2, height: 325 }}>
                         <TabBar />
+                        {/*<Image
+                            source={this.state.showImage}
+                            style={{ height: 110, height: 120 }}
+                        />*/}
                     </View>
                 </View>
             </ScrollView>
         );
     }
 }
+
+export default ExpensesScreen;
+
+

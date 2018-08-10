@@ -4,8 +4,11 @@ import { Container, Header, Content, Footer, FooterTab, Button, Icon, ActionShee
 import { TabNavigator, TabBarBottom } from "react-navigation";
 import Modal from "react-native-modal";
 import { RNCamera } from 'react-native-camera';
+import firebase from 'react-native-firebase';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import styles from './styles';
+
+const storage = firebase.storage();
 
 class TakePictureScreen extends Component {
   constructor(props) {
@@ -41,7 +44,7 @@ class TakePictureScreen extends Component {
         backgroundColor: '#0893CF'
       },
   });
- 
+
   //function that uses the takePictureAsync instance method
   //takes a picure, saves in your app's cache directory and returns a promise
   takePicture = async function() {
@@ -192,9 +195,21 @@ class TakePictureScreen extends Component {
     )
   }
 
+  //save expense function that uploads captured image to firebase storage
+  submitData = () => {
+    firebase.storage().ref('ReceiptData/')
+    .putFile(this.state.path)
+    .then(uploadedFile => { 
+      console.log('expense image saved');
+    })
+    .catch(err => {
+      console.log('image upload file error');
+    })
+  }
+
  //preview image once it has been captured
  renderImage() {
-  //const dataSource = this.state.dataSource;
+    //const dataSource = this.state.dataSource;
     return (
       <View>
         <Image
@@ -210,6 +225,11 @@ class TakePictureScreen extends Component {
           <Text
             style={styles.next}
             onPress={() => this.props.navigation.navigate("ScanReceipt", {dataSource: this.state.dataSource, path: this.state.path} )}
+          >View Expense Details
+          </Text>
+          <Text
+            style={styles.next}
+            onPress={this.submitData}
           >Save Expense
           </Text>
         </View>

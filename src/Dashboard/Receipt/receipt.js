@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { Icon, Footer, FooterTab } from 'native-base';
 
 class ScanReceiptScreen extends React.Component {
@@ -12,10 +12,11 @@ class ScanReceiptScreen extends React.Component {
             width: '70%'
         },
     });
+
     render() {
-        //const dataSource = this.state.dataSource;
         const receipt = this.props.navigation.state.params.path;
         const receiptData = this.props.navigation.state.params.dataSource;
+        //const dataSource = this.state.dataSource;
         return (
             <View>
                 <Image
@@ -52,6 +53,11 @@ class ScanReceiptScreen extends React.Component {
               <Text>{JSON.stringify(item.lineItems[1].productName)}</Text>
               <Text>{JSON.parse(item.lineItems[1].finalPrice).toFixed(2)}</Text>
             </View>
+            <TouchableOpacity>
+                <View style={styles.submitButton}>
+                </View>
+                  <Text style={{ color: '#fff', fontSize: 18, textAlign: 'center'}}>Save Expense</Text>
+              </TouchableOpacity>
           </View>
         );
     }
@@ -64,5 +70,12 @@ const styles = StyleSheet.create({
     height: 300,
     width: 300,
     alignSelf: 'center'
+  },
+  submitButton: {
+    flex: 0, 
+    alignSelf: 'center', 
+    marginTop: 30, 
+    backgroundColor: '#0893CF',
+    width: 150
   }
 });
