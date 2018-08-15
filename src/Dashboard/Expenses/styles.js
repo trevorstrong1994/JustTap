@@ -7,6 +7,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff'
     },
+    preview: {
+		height: 300,
+		width: 300,
+		alignSelf: 'center'
+	},
 });
 
 export default styles;

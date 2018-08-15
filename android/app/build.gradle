@@ -169,6 +169,7 @@ dependencies {
     //RNFirebase Optional Dependencies
     implementation "com.google.firebase:firebase-auth:15.0.0"
     implementation "com.google.firebase:firebase-storage:15.0.0"
+    implementation "com.google.firebase:firebase-database:15.0.0"
 
     implementation(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important

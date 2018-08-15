@@ -1,6 +1,10 @@
 import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { Icon, Footer, FooterTab } from 'native-base';
+import firebase from 'react-native-firebase';
+
+const storage = firebase.storage();
+var database = firebase.database();
 
 class ScanReceiptScreen extends React.Component {
 	static navigationOptions = ({ navigation, screenProps }) => ({
@@ -16,7 +20,6 @@ class ScanReceiptScreen extends React.Component {
     render() {
         const receipt = this.props.navigation.state.params.path;
         const receiptData = this.props.navigation.state.params.dataSource;
-        //const dataSource = this.state.dataSource;
         return (
             <View>
                 <Image
@@ -30,6 +33,17 @@ class ScanReceiptScreen extends React.Component {
             </View>
         )
     }
+
+      /*firebase.database().ref().push(this.state.dataSource)
+      .then((data) => {
+        dispatch({type: 'FULFILLED'})
+          console.log('success');
+      })
+      .catch((err) => {
+        dispatch({type: 'REJECTED'})
+          console.log('Error')
+      })  
+    }*/
 
     renderRow(item) {
         return (
@@ -53,11 +67,11 @@ class ScanReceiptScreen extends React.Component {
               <Text>{JSON.stringify(item.lineItems[1].productName)}</Text>
               <Text>{JSON.parse(item.lineItems[1].finalPrice).toFixed(2)}</Text>
             </View>
-            <TouchableOpacity>
-                <View style={styles.submitButton}>
-                </View>
-                  <Text style={{ color: '#fff', fontSize: 18, textAlign: 'center'}}>Save Expense</Text>
-              </TouchableOpacity>
+            <TouchableOpacity onPress={this.saveData}>
+              <View style={styles.submitButton}>
+                <Text style={{ color: '#fff', fontSize: 18, textAlign: 'center', backgroundColor: '#0893CF' }}>Save Expense</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         );
     }

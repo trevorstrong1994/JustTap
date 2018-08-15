@@ -56,7 +56,8 @@ const Dashboard = DrawerNavigator({
 const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
 
 //Add Camera Screens
-const AddReceiptCamera = StackNavigator({ Camera: TakePictureScreen, ScanReceipt: ScanReceiptScreen }); 
+const AddReceiptCamera = StackNavigator({ Camera: TakePictureScreen, ScanReceipt: ScanReceiptScreen 
+}); 
 
 //Drawer Screens
 const SideBarStack = StackNavigator({
@@ -67,7 +68,7 @@ const SideBarStack = StackNavigator({
     CSVexport: { screen: CSVexport }
 });
 
-// create our app's navigation stack
+//create our app's navigation stack
 const App = SwitchNavigator (
   {
     AuthLoading: Loading,

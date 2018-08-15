@@ -9,6 +9,7 @@ import SegmentedControlTab from 'react-native-segmented-control-tab';
 import styles from './styles';
 
 const storage = firebase.storage();
+var database = firebase.database();
 
 class TakePictureScreen extends Component {
   constructor(props) {
@@ -51,10 +52,6 @@ class TakePictureScreen extends Component {
     const options = { quality: 0.5, fixOrientation: true, base64: true }
     const data = await this.camera.takePictureAsync(options)
     this.setState({ path: data.uri }); 
-    //console.log(data.uri);
-    //console.log(data.base64.length);
-    //console.log(data.base64);
-
     var bodyData = JSON.stringify({
         "additionalFields" : ["totalbillamount"],
         "getLines" : true,
@@ -104,7 +101,7 @@ class TakePictureScreen extends Component {
 
             }
             else {
-              //do stuff with data
+              //log different fields
               console.log("********************************************");
               console.log(response.data.fields);
               console.log("***** Company *****");
@@ -113,7 +110,7 @@ class TakePictureScreen extends Component {
               console.log(response.data.fields.totalbillamount.value);
               console.log("***** Product Name *****");
               console.log(response.data.lineItems[0].productName);
-              //console.log("state", this.state.results);
+              //update dataSource state with receipt data
               this.setState({
                 dataSource: response.data
               });
@@ -195,16 +192,21 @@ class TakePictureScreen extends Component {
     )
   }
 
-  //save expense function that uploads captured image to firebase storage
+  //function that uploads captured image to firebase storage
   submitData = () => {
-    firebase.storage().ref('ReceiptData/')
+    /*firebase.storage().ref('receiptImages')
+    .child(this.state.path)
     .putFile(this.state.path)
-    .then(uploadedFile => { 
-      console.log('expense image saved');
+    .then(uploadedFile => {
+      console.log('uploaded to firebase:', uploadedFile);
     })
     .catch(err => {
-      console.log('image upload file error');
-    })
+      console.log('Firebase putFile error:', err);
+    })*/
+
+    firebase.database().ref('receiptData/').update({
+        receipt: this.state.dataSource
+    });
   }
 
  //preview image once it has been captured
@@ -224,7 +226,7 @@ class TakePictureScreen extends Component {
           </Text>
           <Text
             style={styles.next}
-            onPress={() => this.props.navigation.navigate("ScanReceipt", {dataSource: this.state.dataSource, path: this.state.path} )}
+            onPress={() => this.props.navigation.navigate("ScanReceiptScreen", {dataSource: this.state.dataSource, path: this.state.path} )}
           >View Expense Details
           </Text>
           <Text
