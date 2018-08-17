@@ -192,21 +192,29 @@ class TakePictureScreen extends Component {
     )
   }
 
-  //function that uploads captured image to firebase storage
+  //uploads captured image to firebase storage
+  //uploads json data to firebase database
   submitData = () => {
-    /*firebase.storage().ref('receiptImages')
+    firebase.storage().ref('receiptImages')
     .child(this.state.path)
     .putFile(this.state.path)
     .then(uploadedFile => {
       console.log('uploaded to firebase:', uploadedFile);
+      this.props.navigation.navigate('Main');
     })
     .catch(err => {
       console.log('Firebase putFile error:', err);
-    })*/
+    })
 
-    firebase.database().ref('receiptData/').update({
-        receipt: this.state.dataSource
-    });
+    //get a key for a new receipt
+    var newReceiptKey = firebase.database().ref().child('receipts').push().key;
+
+    //write to the receipts data in the receipts list
+    var updates = {};
+    updates['/receipts/' + newReceiptKey] = this.state.dataSource;
+    console.log('Expenses data saved in firebase database');
+
+    return firebase.database().ref().update(updates);
   }
 
  //preview image once it has been captured

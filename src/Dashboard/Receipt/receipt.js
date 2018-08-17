@@ -34,17 +34,6 @@ class ScanReceiptScreen extends React.Component {
         )
     }
 
-      /*firebase.database().ref().push(this.state.dataSource)
-      .then((data) => {
-        dispatch({type: 'FULFILLED'})
-          console.log('success');
-      })
-      .catch((err) => {
-        dispatch({type: 'REJECTED'})
-          console.log('Error')
-      })  
-    }*/
-
     renderRow(item) {
         return (
           <View>

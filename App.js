@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, TouchableHighlight } from 'react-native';
 import {Icon} from 'native-base';
 import { SwitchNavigator, StackNavigator, DrawerNavigator, TabNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
