@@ -10,6 +10,8 @@ import SignUpScreen from './src/auth/Register/SignUp';
 
 //import Tab screens
 import ExpensesScreen from './src/Dashboard/Expenses/Expenses';
+import ViewReceipt from './src/Dashboard/Expenses/viewReceipt';
+
 import ReportsScreen from './src/Dashboard/Reports/reports';
 import TabBar from './src/Dashboard/tabBar';
 
@@ -29,7 +31,7 @@ import TakePictureScreen from './src/Dashboard/Receipt/takePicture';
 import ScanReceiptScreen from './src/Dashboard/Receipt/receipt';
 
 //Authentication screens
-const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen  });
+const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen });
 
 //Dashboard screen which includes the tab navigation (Expenses & Reports)
 const Dashboard = DrawerNavigator({
@@ -40,7 +42,7 @@ const Dashboard = DrawerNavigator({
             },
             Reports: {
                 screen: ReportsScreen,
-            },
+            },         
         }, {
              tabBarComponent: TabBar,
              tabBarPosition: 'bottom',
@@ -56,8 +58,7 @@ const Dashboard = DrawerNavigator({
 const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
 
 //Add Camera Screens
-const AddReceiptCamera = StackNavigator({ Camera: TakePictureScreen, ScanReceipt: ScanReceiptScreen 
-}); 
+const AddReceiptCamera = StackNavigator({ Camera: TakePictureScreen, ScanReceipt: ScanReceiptScreen }); 
 
 //Drawer Screens
 const SideBarStack = StackNavigator({

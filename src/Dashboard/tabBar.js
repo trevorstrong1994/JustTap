@@ -38,8 +38,8 @@ class TabBar extends Component {
 	        		</TouchableOpacity>
 
 		        	<Modal
-		        	isVisible={this.state.isModalVisible}
-		        	onBackdropPress={() => this.setState({ isModalVisible: false })}
+			        	isVisible={this.state.isModalVisible}
+			        	onBackdropPress={() => this.setState({ isModalVisible: false })}
 		        	>
 			        	<View style={styles.modalView}>
 			        		<Text onPress={() => this.props.navigation.navigate("UseCamera")} style={styles.recieptTypes}> One-sided Reciept </Text>

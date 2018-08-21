@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity, FlatList, ActivityIndicator, Alert } from 'react-native';
 import { Icon, Footer, FooterTab, Tab, Tabs } from 'native-base';
 import firebase from 'react-native-firebase';   
 import { TabBarBottom } from 'react-navigation';
+import Modal from "react-native-modal";
+import { List, ListItem } from 'react-native-elements';
 import styles from './styles';
 
 //import components related to this screen
@@ -17,7 +19,9 @@ class ExpensesScreen extends Component {
 
         this.state = {
             receiptsData: [],
-            loading: true
+            loading: true,
+            isModalVisible: false
+
         }
     }
     static navigationOptions = ({ navigation, screenProps }) => ({
@@ -44,10 +48,17 @@ class ExpensesScreen extends Component {
         ),
     });
 
+    //toggle modal visibility when viewing full receipt
+    _toggleModal = () =>
+        this.setState({ isModalVisible: !this.state.isModalVisible });
+
+    //will guarantee that there's a component to update
+    //before the component mounts
     componentDidMount() {
         this.getReceipts();
     }
 
+    //retrieve json data from the real-time database
     getReceipts = () => {
         firebase.database().ref('receipts').once('value').then(snapshot => {
             console.log('snapshot data ' + snapshot.val());
@@ -55,7 +66,8 @@ class ExpensesScreen extends Component {
             snapshot.forEach((child) => {
                 items.push({
                     fields: child.val().fields,
-                    lineItems: child.val().lineItems
+                    lineItems: child.val().lineItems,
+                    imageUrl: child.val().imageUrl
                 });
             });
             this.setState({ receiptsData: items })
@@ -82,8 +94,23 @@ class ExpensesScreen extends Component {
         )
     }*/
 
+    //delete expense from flatlist
     deleteExpense = () => {
-        firebase.database().ref('receipts').remove()
+        //get a key for a new receipt
+        var newReceiptKey = firebase.database().ref().child('receipts').remove().key;
+    }
+
+    //function that calls the 'deleteExpense' function
+    alertDeleteExpense = () => {
+        Alert.alert(
+            'JUSTTAP',
+             'Are you sure you want to delete this expense?',
+              [
+                {text: 'Confirm', onPress: this.deleteExpense.bind(this)},
+                {text: 'Cancel', onPress:() => console.log('Cancel Pressed'), style: 'cancel'},
+              ],
+              { cancelable: false }
+        )
     }
 
     render(item, index) {
@@ -96,23 +123,20 @@ class ExpensesScreen extends Component {
                 <Tabs initialPage={0} tabBarUnderlineStyle={{ backgroundColor: 'orange' }}>
                     <Tab heading="ALL" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}}>
                     <View>
+                        <List containerStyle={{ borderTopWidth: 1, borderBottomWidth: 0 }}>
                         <FlatList
                             data={this.state.receiptsData}
-                            deleteItem={() => this.deleteExpense(item)}
-                            renderItem={({item}) =>
-                            <View style={{ borderWidth: 2, borderColor: '#0893CF' }}>
-                                <Text>Company {JSON.stringify(item.fields.merchantname.value)}</Text>
-                                <Text>Bill Amount {JSON.parse(item.fields.totalbillamount.value).toFixed(2)}</Text>
-                                <Text>Billing Date {JSON.stringify(item.fields.billingdate.value)}</Text>
+                            renderItem={({item}) => (
+                            <ListItem                            
+                                title={`${item.fields.merchantname.value} ${item.fields.totalbillamount.value}`}
+                                subtitle={item.fields.billingdate.value}
 
-                                <Text>{JSON.stringify(item.lineItems[0].quantity)}</Text>
-                                <Text>{JSON.stringify(item.lineItems[0].productName)}</Text>
-                                <Text>{JSON.parse(item.lineItems[0].finalPrice).toFixed(2)}</Text>
-                                <Text onPress={this.deleteExpense}>DELETE EXPENSE</Text>
-                            </View>
-                            }
-                            keyExtractor={(item, index) => index.toString()}
+                                onPress={() => this.props.navigation.navigate("ViewReceipt")}
+                            />
+                            )}
+                            keyExtractor={item => item.fields.billingdate.value}
                         />
+                        </List>
                     </View>
                     </Tab>
                     <Tab heading="RECENT" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}}>

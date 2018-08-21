@@ -108,8 +108,8 @@ class TakePictureScreen extends Component {
               console.log(response.data.fields.merchantname.value);
               console.log("***** Total bill amount *****");
               console.log(response.data.fields.totalbillamount.value);
-              console.log("***** Product Name *****");
-              console.log(response.data.lineItems[0].productName);
+              //console.log("***** Product Name *****");
+              //console.log(response.data.lineItems[0].productName);
               //update dataSource state with receipt data
               this.setState({
                 dataSource: response.data
@@ -192,8 +192,10 @@ class TakePictureScreen extends Component {
     )
   }
 
-  //uploads captured image to firebase storage
-  //uploads json data to firebase database
+  /* 
+     uploads captured image to firebase storage
+     as well as the json data to firebase database 
+  */
   submitData = () => {
     firebase.storage().ref('receiptImages')
     .child(this.state.path)

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -12,6 +12,13 @@ const styles = StyleSheet.create({
 		width: 300,
 		alignSelf: 'center'
 	},
+    viewReceiptModal: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: Dimensions.get('window').height,
+        width: Dimensions.get('window').width
+    }
 });
 
 export default styles;
