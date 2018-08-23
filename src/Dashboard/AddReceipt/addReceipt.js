@@ -5,25 +5,6 @@ import ReceiptForm from './receiptForm';
 import ExpenseImage from './expenseImage';
 
 class AddReceiptScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-        this.state = {}
-    }
-
-    componentWillMount() {
-	    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-	}
-
-	componentWillUnmount() {
-	    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
-	}
-
-    handleBackButtonClick() {
-        this.props.navigation.navigate('Main');
-        return true;
-    }
-
     static navigationOptions = ({ navigation, screenProps }) => ({ 
         title: 'ADD RECEIPT MANUALLY',
         headerTintColor: '#fff',
@@ -48,7 +29,6 @@ class AddReceiptScreen extends Component {
     });
 
     render() {
-        const state = this.state;
         return(
                 <Tabs initialPage={0} tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}>
                     <Tab heading="Expense Details" tabStyle={{backgroundColor: '#fff'}} activeTabStyle={{backgroundColor: '#ffa500'}} textStyle={{color: '#ffa500'}} activeTextStyle={{color: '#fff'}}>

@@ -33,7 +33,7 @@ class ExpensesScreen extends Component {
             width: '90%'
         },
         headerRight: (
-            <TouchableOpacity onPress={() =>{navigation.navigate("ReceiptScreens")}}>
+            <TouchableOpacity onPress={() =>{navigation.navigate("AddReceiptScreen")}}>
                 <View style={{ marginRight: 15 }}>
                     <Icon name="add" style={{fontSize: 25, color: '#A7A9AB'}} />
                 </View>
@@ -75,44 +75,6 @@ class ExpensesScreen extends Component {
         });
     }
 
-    /*render() {
-        const { navigation } = this.props;
-        const receipt = navigation.getParam.path;
-        const receiptData = navigation.getParam.dataSource;
-        return (
-            <View>
-                <Image
-                    source={{uri: receipt}}
-                    style={styles.preview}
-                />
-                <FlatList
-                    data={this.state.receiptsData}
-                    renderItem={({item}) => this.renderRow(item)}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-            </View>
-        )
-    }*/
-
-    //delete expense from flatlist
-    deleteExpense = () => {
-        //get a key for a new receipt
-        var newReceiptKey = firebase.database().ref().child('receipts').remove().key;
-    }
-
-    //function that calls the 'deleteExpense' function
-    alertDeleteExpense = () => {
-        Alert.alert(
-            'JUSTTAP',
-             'Are you sure you want to delete this expense?',
-              [
-                {text: 'Confirm', onPress: this.deleteExpense.bind(this)},
-                {text: 'Cancel', onPress:() => console.log('Cancel Pressed'), style: 'cancel'},
-              ],
-              { cancelable: false }
-        )
-    }
-
     render(item, index) {
         return (
           <View style={styles.container}>
@@ -123,18 +85,17 @@ class ExpensesScreen extends Component {
                 <Tabs initialPage={0} tabBarUnderlineStyle={{ backgroundColor: 'orange' }}>
                     <Tab heading="ALL" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}}>
                     <View>
-                        <List containerStyle={{ borderTopWidth: 1, borderBottomWidth: 0 }}>
+                        <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
                         <FlatList
                             data={this.state.receiptsData}
-                            renderItem={({item}) => (
-                            <ListItem                            
-                                title={`${item.fields.merchantname.value} ${item.fields.totalbillamount.value}`}
-                                subtitle={item.fields.billingdate.value}
-
-                                onPress={() => this.props.navigation.navigate("ViewReceipt")}
+                            renderItem={({item:data}) => (
+                            <ListItem
+                                title={`${data.fields.merchantname.value} ${data.fields.totalbillamount.value}`}
+                                subtitle={data.fields.billingdate.value}
+                                onPress={() => this.props.navigation.navigate("ViewReceipt", {data})}
                             />
                             )}
-                            keyExtractor={item => item.fields.billingdate.value}
+                            keyExtractor={(item, index) =>  index.toString()}
                         />
                         </List>
                     </View>

@@ -17,24 +17,7 @@ class ScanReceiptScreen extends React.Component {
         },
     });
 
-    render() {
-        const receipt = this.props.navigation.state.params.path;
-        const receiptData = this.props.navigation.state.params.dataSource;
-        return (
-            <View>
-                <Image
-                    source={{uri: receipt}}
-                    style={styles.preview}
-                />
-                <FlatList
-                    data={[receiptData]}
-                    renderItem={({item}) => this.renderRow(item)}
-                />
-            </View>
-        )
-    }
-
-    renderRow(item) {
+    renderRow() {
         return (
           <View>
             <Text style={{ fontSize: 20 }}>Fields</Text>

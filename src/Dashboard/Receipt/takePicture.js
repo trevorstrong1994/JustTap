@@ -197,7 +197,7 @@ class TakePictureScreen extends Component {
      as well as the json data to firebase database 
   */
   submitData = () => {
-    firebase.storage().ref('receiptImages')
+    /*firebase.storage().ref('receiptImages')
     .child(this.state.path)
     .putFile(this.state.path)
     .then(uploadedFile => {
@@ -206,7 +206,7 @@ class TakePictureScreen extends Component {
     })
     .catch(err => {
       console.log('Firebase putFile error:', err);
-    })
+    })*/
 
     //get a key for a new receipt
     var newReceiptKey = firebase.database().ref().child('receipts').push().key;

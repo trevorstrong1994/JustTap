@@ -1,7 +1,7 @@
  import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, TouchableHighlight } from 'react-native';
 import {Icon} from 'native-base';
-import { SwitchNavigator, StackNavigator, DrawerNavigator, TabNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
+import { SwitchNavigator, StackNavigator, DrawerNavigator, TabNavigator, createDrawerNavigator, DrawerItems, createStackNavigator } from 'react-navigation';
 
 //import Authentication screens
 import Loading from './src/auth/Loading/Loading';
@@ -34,7 +34,7 @@ import ScanReceiptScreen from './src/Dashboard/Receipt/receipt';
 const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen });
 
 //Dashboard screen which includes the tab navigation (Expenses & Reports)
-const Dashboard = DrawerNavigator({
+/*const Dashboard = DrawerNavigator({
     Stacks: StackNavigator({
         Tabs: TabNavigator({
             Expenses: {
@@ -42,7 +42,7 @@ const Dashboard = DrawerNavigator({
             },
             Reports: {
                 screen: ReportsScreen,
-            },         
+            },
         }, {
              tabBarComponent: TabBar,
              tabBarPosition: 'bottom',
@@ -52,13 +52,52 @@ const Dashboard = DrawerNavigator({
 }, {
     drawerWidth: 330,
     contentComponent: props => <Sidebar {...props} />,
+});*/
+
+export const Dashboard = StackNavigator({
+    Expenses: {
+      screen: ExpensesScreen,
+    },
+    Reports: {
+      screen: ReportsScreen
+    },
+    ViewReceipt: {
+      screen: ViewReceipt
+    },
+    AddReceiptScreen: {
+      screen: AddReceiptScreen
+    },
+    Camera: {
+      screen: TakePictureScreen
+    }, 
 });
 
+/*export const Drawer = DrawerNavigator({
+  
+});*/
+
+export const Tabs = TabNavigator({
+  Expenses: {
+      screen: ExpensesScreen,
+    },
+  Reports: {
+      screen: ReportsScreen
+    },
+});
+
+
+/*export const MainDrawer = DrawerNavigator({
+  Dashboard: {screen: Dashboard}
+})*/
+
+//View Receipt Screens
+//const ViewFullReceipt = StackNavigator({ CompleteReceipt: ViewReceipt });
+
 //Add Expense Screens
-const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
+//const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
 
 //Add Camera Screens
-const AddReceiptCamera = StackNavigator({ Camera: TakePictureScreen, ScanReceipt: ScanReceiptScreen }); 
+//const AddReceiptCamera = StackNavigator({ Camera: TakePictureScreen, ScanReceipt: ScanReceiptScreen }); 
 
 //Drawer Screens
 const SideBarStack = StackNavigator({
@@ -75,9 +114,10 @@ const App = SwitchNavigator (
     AuthLoading: Loading,
     Auth: AuthStack,
     Main: Dashboard,
-    SideBar: SideBarStack,
-    ReceiptScreens: AddReceipt,
-    UseCamera: AddReceiptCamera,
+    //SideBar: SideBarStack,
+    //FullReceipt: ViewFullReceipt,
+    //ReceiptScreens: AddReceipt,
+    //UseCamera: AddReceiptCamera,
   },
   {
     initialRouteName: 'AuthLoading',
