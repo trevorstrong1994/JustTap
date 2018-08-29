@@ -3,6 +3,8 @@ import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, FlatList, 
 import { Icon, Footer, FooterTab } from 'native-base';
 import firebase from 'react-native-firebase';
 
+var database = firebase.database();
+
 class ViewReceipt extends React.Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'FULL RECEIPT',
@@ -25,9 +27,10 @@ class ViewReceipt extends React.Component {
 
     //delete expense from flatlist
     deleteExpense = () => {
-        //get a key for a new receipt
-        var newReceiptKey = firebase.database().ref().child('receipts').remove().key;
-        this.props.navigation.navigate('ExpensesScreen');
+        //const itemData = this.props.navigation.state.params.receiptsData
+        var removeExpense = firebase.database().ref('/receipts/').child().remove();
+
+        return this.props.navigation.navigate('Expenses');
     }
 
     //function that calls the 'deleteExpense' function
@@ -44,33 +47,51 @@ class ViewReceipt extends React.Component {
     }
 
     render(item) {
-        //const {params} = this.props.navigation.state;
-        //const mainData = this.props.navigation.state.params.receiptsData;
         const { params } = this.props.navigation.state;
         const data = params ? params.data : null;
-        return(
-        <View style={{ flex: 1, alignItems: 'center' }}>
-            <Text style={styles.company}>Company: {JSON.stringify(data.fields.merchantname.value)}</Text>
+        return (
+            <View style={{ flex: 1, alignItems: 'center' }}>
+                <Text style={styles.company}>Company: {JSON.stringify(data.fields.merchantname.value)}</Text>
+                <Text styles={{ fontSize: 16,fontWeight: '500', marginTop: 5}}></Text>
 
-            <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[0].quantity)}</Text>
-            <Text style={styles.product}>Product 1: {JSON.stringify(data.lineItems[0].productName)}</Text>
-            <Text style={styles.product}>Product 2: {JSON.stringify(data.lineItems[1].productName)}</Text>
-            <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[0].finalPrice).toFixed(2)}</Text>
-
-            <Image
-                style={styles.preview}
-                source={{uri: data.imageUrl}}
-            />
-
-            <Text style={styles.amount}>Bill Amount: £{JSON.parse(data.fields.totalbillamount.value).toFixed(2)}</Text>
-            <Text style={styles.date}>Billing Date: {JSON.stringify(data.fields.billingdate.value)}</Text>
-
-            <TouchableOpacity onPress={this.alertDeleteExpense.bind(this)}>
-                <View style={styles.deleteBtn}>
-                    <Text style={{ fontSize: 16, color: '#FFF', marginTop: 8, textAlign: 'center' }}>DELETE EXPENSE</Text>
+                {/******** LIST OF PRODUCTS + QUANTITY ********/}
+                <View style={{flexDirection: 'row' }}>
+                    <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[0].quantity)}</Text>
+                    <Text style={styles.product}>Product 1: {JSON.stringify(data.lineItems[0].productName)}</Text>
+                    <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[0].finalPrice).toFixed(2)}</Text>
                 </View>
-            </TouchableOpacity>
-        </View>
+                <View style={{flexDirection: 'row' }}>
+                    <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[1].quantity)}</Text>
+                    <Text style={styles.product}>Product 2: {JSON.stringify(data.lineItems[1].productName)}</Text>
+                    <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[1].finalPrice).toFixed(2)}</Text>
+                </View>
+                <View style={{flexDirection: 'row' }}>
+                    <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[2].quantity)}</Text>
+                    <Text style={styles.product}>Product 3: {JSON.stringify(data.lineItems[2].productName)}</Text>
+                    <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[2].finalPrice).toFixed(2)}</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[3].quantity)}</Text>
+                    <Text style={styles.product}>Product 4: {JSON.stringify(data.lineItems[3].productName)}</Text>
+                    <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[3].finalPrice).toFixed(2)}</Text>
+                </View>
+
+                {/******** IMAGE OF RECEIPT ********/}   
+                <Image
+                    style={styles.preview}
+                    source={{uri: data.imageUrl}}
+                />
+
+                {/******** TOTAL BILL AMOUNT + BILLING DATE ********/}   
+                <Text style={styles.amount}>Bill Amount: £{JSON.parse(data.fields.totalbillamount.value).toFixed(2)}</Text>
+                <Text style={styles.date}>Billing Date: {JSON.stringify(data.fields.billingdate.value)}</Text>
+
+                <TouchableOpacity onPress={this.alertDeleteExpense.bind(this)}>
+                    <View style={styles.deleteBtn}>
+                        <Text style={{ fontSize: 16, color: '#FFF', marginTop: 8, textAlign: 'center' }}>DELETE EXPENSE</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         )
     }
 }

@@ -2,6 +2,7 @@
 import { StyleSheet, Platform, Image, Text, View, TouchableHighlight } from 'react-native';
 import {Icon} from 'native-base';
 import { SwitchNavigator, StackNavigator, DrawerNavigator, TabNavigator, createDrawerNavigator, DrawerItems, createStackNavigator } from 'react-navigation';
+import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 
 //import Authentication screens
 import Loading from './src/auth/Loading/Loading';
@@ -33,34 +34,20 @@ import ScanReceiptScreen from './src/Dashboard/Receipt/receipt';
 //Authentication screens
 const AuthStack = StackNavigator({ Login: LoginScreen, SignUp: SignUpScreen });
 
-//Dashboard screen which includes the tab navigation (Expenses & Reports)
-/*const Dashboard = DrawerNavigator({
-    Stacks: StackNavigator({
-        Tabs: TabNavigator({
-            Expenses: {
-                screen: ExpensesScreen,
-            },
-            Reports: {
-                screen: ReportsScreen,
-            },
-        }, {
-             tabBarComponent: TabBar,
-             tabBarPosition: 'bottom',
-             swipeEnabled: false,
-        }),
+export const Dashboard = DrawerNavigator({
+  Stacks: StackNavigator({
+    Tabs: TabNavigator({
+      Expenses: {
+        screen: ExpensesScreen,
+      },
+      Reports: {
+        screen: ReportsScreen
+      },
+    }, {
+       tabBarComponent: TabBar,
+       tabBarPosition: 'bottom',
+       swipeEnabled: false,
     }),
-}, {
-    drawerWidth: 330,
-    contentComponent: props => <Sidebar {...props} />,
-});*/
-
-export const Dashboard = StackNavigator({
-    Expenses: {
-      screen: ExpensesScreen,
-    },
-    Reports: {
-      screen: ReportsScreen
-    },
     ViewReceipt: {
       screen: ViewReceipt
     },
@@ -69,43 +56,19 @@ export const Dashboard = StackNavigator({
     },
     Camera: {
       screen: TakePictureScreen
-    }, 
-});
-
-/*export const Drawer = DrawerNavigator({
-  
-});*/
-
-export const Tabs = TabNavigator({
-  Expenses: {
-      screen: ExpensesScreen,
     },
-  Reports: {
-      screen: ReportsScreen
-    },
-});
-
-
-/*export const MainDrawer = DrawerNavigator({
-  Dashboard: {screen: Dashboard}
-})*/
-
-//View Receipt Screens
-//const ViewFullReceipt = StackNavigator({ CompleteReceipt: ViewReceipt });
-
-//Add Expense Screens
-//const AddReceipt = StackNavigator({ Receipt: AddReceiptScreen });
-
-//Add Camera Screens
-//const AddReceiptCamera = StackNavigator({ Camera: TakePictureScreen, ScanReceipt: ScanReceiptScreen }); 
-
-//Drawer Screens
-const SideBarStack = StackNavigator({
+    //Sidebar stack
     IncomeTaxScreen: { screen: IncomeTaxScreen },
     TagsScreen: { screen: TagsScreen },
     ReferFriend: { screen: ReferFriend },
     PDFexport: { screen: PDFexport },
-    CSVexport: { screen: CSVexport }
+    CSVexport: { screen: CSVexport },
+  }, {
+    transitionConfig: getSlideFromRightTransition
+  }),
+  }, {
+    drawerWidth: 330,
+    contentComponent: props => <Sidebar {...props} />,
 });
 
 //create our app's navigation stack
@@ -114,10 +77,6 @@ const App = SwitchNavigator (
     AuthLoading: Loading,
     Auth: AuthStack,
     Main: Dashboard,
-    //SideBar: SideBarStack,
-    //FullReceipt: ViewFullReceipt,
-    //ReceiptScreens: AddReceipt,
-    //UseCamera: AddReceiptCamera,
   },
   {
     initialRouteName: 'AuthLoading',

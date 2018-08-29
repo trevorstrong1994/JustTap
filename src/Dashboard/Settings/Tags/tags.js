@@ -18,7 +18,7 @@ class TagsScreen extends Component {
             />
         ),
         headerLeft: (
-            <TouchableOpacity onPress={() =>{navigation.navigate("Main")}}>
+            <TouchableOpacity onPress={() =>{navigation.navigate("Expenses")}}>
                 <View style={{marginLeft: 15}}>
                     <Icon name="close"
                         style={{fontSize: 25, color: '#A7A9AB'}}
@@ -27,15 +27,6 @@ class TagsScreen extends Component {
             </TouchableOpacity>
         ),
     });
-
-    componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-    }
-
-    handleBackButton() {
-        this.props.navigation.navigate.popToTop();
-        return true;
-    }
 
     render() {
         return (

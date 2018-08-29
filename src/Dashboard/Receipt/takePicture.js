@@ -8,13 +8,11 @@ import firebase from 'react-native-firebase';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import styles from './styles';
 
-const storage = firebase.storage();
 var database = firebase.database();
 
 class TakePictureScreen extends Component {
   constructor(props) {
     super(props);
-    //this.renderRow = this.renderRow.bind(this);
     this.state = {
       selectedIndex: 0, 
       customStyleIndex: 0,
@@ -192,36 +190,25 @@ class TakePictureScreen extends Component {
     )
   }
 
-  /* 
-     uploads captured image to firebase storage
-     as well as the json data to firebase database 
-  */
   submitData = () => {
-    /*firebase.storage().ref('receiptImages')
-    .child(this.state.path)
-    .putFile(this.state.path)
-    .then(uploadedFile => {
-      console.log('uploaded to firebase:', uploadedFile);
-      this.props.navigation.navigate('Main');
-    })
-    .catch(err => {
-      console.log('Firebase putFile error:', err);
-    })*/
-
-    //get a key for a new receipt
-    var newReceiptKey = firebase.database().ref().child('receipts').push().key;
+    /*
+     * push() method generates a unique key every time a new child
+     * is added to the 'Receipts' firebase reference
+    */
+    var newReceiptKey = firebase.database().ref('Receipts/').push().key;
 
     //write to the receipts data in the receipts list
     var updates = {};
     updates['/receipts/' + newReceiptKey] = this.state.dataSource;
     console.log('Expenses data saved in firebase database');
 
+    this.props.navigation.navigate('Expenses');
+
     return firebase.database().ref().update(updates);
   }
 
  //preview image once it has been captured
  renderImage() {
-    //const dataSource = this.state.dataSource;
     return (
       <View>
         <Image
@@ -233,12 +220,7 @@ class TakePictureScreen extends Component {
             style={styles.cancel}
             onPress={() => this.setState({ path: null })}
           >Cancel
-          </Text>
-          <Text
-            style={styles.next}
-            onPress={() => this.props.navigation.navigate("ScanReceiptScreen", {dataSource: this.state.dataSource, path: this.state.path} )}
-          >View Expense Details
-          </Text>
+          </Text> 
           <Text
             style={styles.next}
             onPress={this.submitData}

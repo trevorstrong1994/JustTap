@@ -42,7 +42,7 @@ class TabBar extends Component {
 			        	onBackdropPress={() => this.setState({ isModalVisible: false })}
 		        	>
 			        	<View style={styles.modalView}>
-			        		<Text onPress={() => this.props.navigation.navigate("UseCamera")} style={styles.recieptTypes}> One-sided Reciept </Text>
+			        		<Text onPress={() => this.props.navigation.navigate("Camera")} style={styles.recieptTypes}> One-sided Reciept </Text>
 			        		<Text style={styles.recieptTypes}> Two-sided Reciept </Text>
 			        		<Text style={styles.recieptTypes}> Multiple Reciepts </Text>
 		        		</View>
