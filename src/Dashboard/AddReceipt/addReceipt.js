@@ -1,10 +1,32 @@
 import React, {Component} from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, Modal, TouchableOpacity, BackHandler } from 'react-native';
-import { Tab, Tabs, Icon, Form, Item, Input, Label, Content, DatePicker } from 'native-base';
-import ReceiptForm from './receiptForm';
+import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, Modal, TouchableOpacity, FlatList } from 'react-native';
+import { Tab, Tabs, Icon, Form, Item, Input, Label, Content } from 'native-base';
+//import ReceiptForm from './receiptForm';
 import ExpenseImage from './expenseImage';
+import firebase from 'react-native-firebase';
+import DatePicker from 'react-native-datepicker';
+import { List, ListItem } from 'react-native-elements';
+import styles from './styles';
+
+var db = firebase.firestore();
 
 class AddReceiptScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            supplier: '',
+            date: '2018-01-01',
+            category: '',
+            note: '',
+            location: '',
+            tag: '',
+            inputName: '',
+            quantityAmount: '',
+            priceAmount: '',
+            loading: true,
+            receiptsData: []
+        }
+    }
     static navigationOptions = ({ navigation, screenProps }) => ({ 
         title: 'ADD RECEIPT MANUALLY',
         headerTintColor: '#fff',
@@ -18,7 +40,7 @@ class AddReceiptScreen extends Component {
             />
         ),
         headerLeft: (
-            <TouchableOpacity onPress={() =>{navigation.navigate("Main")}}>
+            <TouchableOpacity onPress={() =>{navigation.navigate("Expenses")}}>
                 <View style={{ marginLeft: 15 }}>
                     <Icon name="close"
                         style={{fontSize: 25, color: '#A7A9AB'}}
@@ -28,78 +50,229 @@ class AddReceiptScreen extends Component {
         ),
     });
 
+    //Upload the information from the text inputs
+    addExpense = () => {
+        db.collection('manualExpenses').add({
+            supplier: this.state.supplierName,
+            date: this.state.expenseDate,
+            category: this.state.categoryType,
+            note: this.state.expenseNote,
+            location: this.state.expenseLocation,
+            tag: this.state.expenseTag,
+
+            name: this.state.inputName,
+            quantity: this.state.quantityAmount,
+            price: this.state.priceAmount,
+        })
+        .then(function(docRef) {
+          console.log('Document written with ID ', docRef.id);
+        })
+        .catch(function(error) {
+          console.error('Error adding document: ', error);
+        });
+
+        this.setState({
+            /******* expense information *******/
+            supplierName: '',
+            date: '',
+            categoryType: '',
+            expenseNote: '',
+            expenseLocation: '',
+            expenseTag: '',
+
+            /******* item information *******/
+            inputName: '',
+            quantityAmount: '',
+            priceAmount: ''
+        });
+    }
+
+    /******* update expense information state ********/    
+    updateSupplierInput(value) {
+        this.setState({ supplierName: value });
+    }
+
+    updateCategoryInput(value) {
+        this.setState({ categoryType: value });
+    }
+
+    updateNoteInput(value) {
+        this.setState({ expenseNote: value });
+    }
+
+    updateLocationInput(value) {
+        this.setState({ expenseLocation: value });
+    }
+
+    updateTagInput(value) {
+        this.setState({ expenseTag: value });
+    }
+
+    /******* update expense item state ********/    
+    updateNameInput(value) {
+        this.setState({ inputName: value });
+    }
+
+    updateQuantityInput(value) {
+        this.setState({ quantityAmount: value });
+    }
+ 
+    updatePriceInput(value) {
+        this.setState({ priceAmount: value });
+    }
+
+    componentDidMount() {
+        this.retrieveItemData();
+    }
+
+    //retrieve name, quantity & price fields from firestore
+    retrieveItemData = () => {
+        firebase.firestore().collection('manualExpenses').get().then(querySnapshot => {
+        var items = [];
+        querySnapshot.forEach((doc) => {
+            items.push({
+                key: doc.id,
+                name: doc.data().name,
+                quantity: doc.data().quantity,
+                price: doc.data().price,
+            });
+        });
+            this.setState({ receiptsData: items });
+            console.log('items data ' + this.state.receiptsData);
+        });
+    }
+
+    /*deleteExpense = () => {
+        firebase.firestore().collection('manualExpenses').where(doc.id).then(querySnapshot => {
+            querySnapshot.forEach((doc) => {
+                doc.ref.delete().then(() => {
+                    console.log('Document Successfully Deleted');
+                }).catch(function(error) {
+                    console.log('Error removing document ', error);
+                });
+            });
+        });
+    }*/
+
     render() {
-        return(
+        return (
                 <Tabs initialPage={0} tabBarUnderlineStyle={{ backgroundColor: 'transparent'}}>
                     <Tab heading="Expense Details" tabStyle={{backgroundColor: '#fff'}} activeTabStyle={{backgroundColor: '#ffa500'}} textStyle={{color: '#ffa500'}} activeTextStyle={{color: '#fff'}}>
                         <Content padder>
-                        {/* Receipt Form */}
-                        <ReceiptForm />
+                          {/************ Receipt Form ***********/}
+                            <Form>
+                                <Item floatingLabel>
+                                    <Icon name="print" style={{fontSize: 30, color: '#0893CF'}} />
+                                    <Label style={{marginLeft: 15, color: '#A7A9AB'}}>Supplier</Label>
+                                    <Input style={{ marginLeft: 5 }} maxLength={15} value={this.state.supplierName} onChangeText={(text) => this.updateSupplierInput(text)}/>
+                                </Item>
+                                <Item floatingLabel>
+                                    <Icon name="calendar" style={{fontSize: 30, color: '#0893CF'}} />
+                                    <Label style={{marginLeft: 15, color: '#A7A9AB'}}>Date</Label>
+                                    <DatePicker
+                                        style={{width: 200}}
+                                        date={this.state.date}
+                                        mode="date"
+                                        format="YYYY-MM-DD"
+                                        confirmBtnText="Confirm"
+                                        cancelBtnText="Cancel"
+                                        value={this.state.expenseDate}
+                                        onDateChange={(date) => {this.setState({date: date})}}
+                                    />
+                                </Item>
+                                <Item floatingLabel>
+                                    <Icon name="document" style={{fontSize: 30, color: '#0893CF'}} />
+                                    <Label style={{marginLeft: 15, color: '#A7A9AB'}}>Category</Label>
+                                    <Input style={{ marginLeft: 10 }} maxLength={15} value={this.state.categoryType} onChangeText={(text) => this.updateCategoryInput(text)}/>
+                                </Item>
+                                <Item floatingLabel>
+                                    <Icon name="paper" style={{fontSize: 30, color: '#0893CF'}} />
+                                    <Label style={{marginLeft: 15, color: '#A7A9AB'}}>Note</Label>
+                                    <Input style={{ marginLeft: 5 }} maxLength={15} value={this.state.expenseNote} onChangeText={(text) => this.updateNoteInput(text)}/>
+                                </Item>
+                                <Item floatingLabel>
+                                    <Icon name="pin" style={{fontSize: 30, color: '#0893CF'}}/>
+                                    <Label style={{marginLeft: 15, color: '#A7A9AB'}}>Location</Label>
+                                    <Input style={{ marginLeft: 10 }} maxLength={15} value={this.state.expenseLocation} onChangeText={(text) => this.updateLocationInput(text)}/>
+                                </Item>
+                                <Item floatingLabel>
+                                    <Icon name="pricetag" style={{fontSize: 30, color: '#0893CF' }}/>
+                                    <Label style={{marginLeft: 15, color: '#A7A9AB'}}>Tag</Label>
+                                    <Input style={{ marginLeft: 5 }} value={this.state.expenseTag} onChangeText={(text) => this.updateTagInput(text)}/>
+                                </Item>
+                            </Form>
 
-                        {/* Add Items Table */}
-                          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 30, marginBottom: 15 }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Items</Text>
-                            <Icon name="add-circle" style={{fontSize: 30, color: '#A7A9AB' }} />
-                          </View>
-                          <View style={{ borderWidth: 1, borderColor: '#A7A9AB', borderRadius: 2}}>
-                              <View style={styles.container}>
-                                <Text style={styles.tableHeadings}>Name</Text>
-                                <Text style={styles.tableHeadings}>Quantity</Text>
-                                <Text style={styles.tableHeadings}>Price</Text>
-                              </View>
-                              <View style={styles.inputFields}>
+                            {/************ Add Items Table ************/}
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 30, marginBottom: 15 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Items</Text>
+                                    <TouchableOpacity>
+                                        <Icon name="add-circle"
+                                            style={{fontSize: 30, color: '#0893CF' }}
+                                            onPress={() => this.addExpense()}
+                                        />
+                                    </TouchableOpacity>
+                            </View>
+                            <View style={{ borderWidth: 1, borderColor: '#A7A9AB', borderRadius: 2}}>
+                                <View style={styles.container}>
+                                    <Text style={styles.tableHeadings}>Name</Text>
+                                    <Text style={styles.tableHeadings}>Quantity</Text>
+                                    <Text style={styles.tableHeadings}>Price</Text>
+                                </View>
+                            <View style={styles.inputFields}>
                                 <Item regular style={{ width: 120, height: 40, borderRadius: 5 }}>
                                     <Input
-                                        maxLength={14}
+                                        maxLength={20}
+                                        value={this.state.inputName}
+                                        onChangeText={(text) => this.updateNameInput(text)}
                                     />
                                 </Item>
                                 <Item regular style={{ width: 70, height: 40, borderRadius: 5 }}>
                                 <Input
                                     maxLength={2}
                                     keyboardType="numeric"
+                                    value={this.state.quantityAmount}
+                                    onChangeText={(text) => this.updateQuantityInput(text)}
                                 />
                                 </Item>
                                 <Item regular style={{ width: 70, height: 40, borderRadius: 5 }}>
                                 <Input
                                     maxLength={6}
                                     keyboardType="numeric"
+                                    value={this.state.priceAmount}
+                                    onChangeText={(text) => this.updatePriceInput(text)}
                                 />
                                 </Item>
-                              </View>
-                          </View>
-                        </Content>
-                    </Tab>
-                    <Tab heading="Expense Image" tabStyle={{backgroundColor: '#fff'}} activeTabStyle={{backgroundColor: '#ffa500'}} textStyle={{color: '#ffa500'}} activeTextStyle={{color: '#fff'}}>
-                        <ExpenseImage />
-                    </Tab>
-                </Tabs>
+                            </View>
+                            <View>
+                                <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
+                                    <FlatList
+                                        data={this.state.receiptsData}
+                                        renderItem={({item}) => (
+                                        <ListItem style={styles.listview}
+                                            title={`${item.name} ${item.quantity} £${item.price}`}
+                                            rightIcon={{ name: 'delete'}}
+                                        />
+                                        )}
+                                        keyExtractor={item => item.key}
+                                    />
+                                    </List>
+                            </View>
+                        </View>
+                    </Content>
+                </Tab>
+                <Tab heading="Expense Image" tabStyle={{backgroundColor: '#fff'}} activeTabStyle={{backgroundColor: '#ffa500'}} textStyle={{color: '#ffa500'}} activeTextStyle={{color: '#fff'}}>
+                    <View style={{flex: 0, justifyContent: 'center', alignItems: 'center'}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Camera")}>
+                            <Image
+                                style={{width: 300, height: 320}}
+                                source={require('../../assets/addreciept/default3x.png')}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </Tab>
+            </Tabs>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        backgroundColor: '#0893CF',
-        height: 30,
-        left: 0,
-    },
-    tableHeadings: {
-        fontSize: 18,
-        color: '#fff',
-        fontWeight: '500',
-        right: 10
-    },
-    inputFields: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 15,
-        marginBottom: 10,
-        right: 10
-    }
-});
 
 export default AddReceiptScreen;

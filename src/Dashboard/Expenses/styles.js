@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        zIndex: 1
     },
     preview: {
 		height: 300,

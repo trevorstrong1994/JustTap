@@ -18,7 +18,7 @@ class ScanReceiptScreen extends React.Component {
     });
 
     renderRow() {
-        return (
+      return (
           <View>
             <Text style={{ fontSize: 20 }}>Fields</Text>
               <Text>Company {JSON.stringify(item.fields.merchantname.value)}</Text>
@@ -45,7 +45,7 @@ class ScanReceiptScreen extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-        );
+      );
     }
 }
 

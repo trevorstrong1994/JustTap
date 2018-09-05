@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity, Dimensions, FlatList } from 'react-native';
-import { Container, Header, Content, Footer, FooterTab, Button, Icon, ActionSheet, Tabs, Tab, List, ListItem } from 'native-base'; 
+import { Container, Header, Content, Footer, FooterTab, Button, Icon, ActionSheet, Tabs, Tab, List, ListItem, Toast } from 'native-base'; 
 import { TabNavigator, TabBarBottom } from "react-navigation";
 import Modal from "react-native-modal";
 import { RNCamera } from 'react-native-camera';
@@ -8,7 +8,7 @@ import firebase from 'react-native-firebase';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import styles from './styles';
 
-var database = firebase.database();
+var db = firebase.firestore();
 
 class TakePictureScreen extends Component {
   constructor(props) {
@@ -166,7 +166,7 @@ class TakePictureScreen extends Component {
           }
           {this.state.customStyleIndex === 1 &&
             <View style={{ flexDirection: 'row' }}> 
-              <TouchableOpacity onPress={() => this.props.navigation.navigate("Main")}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate("Expenses")}>
                 <View style={styles.cancelBtn}>
                     <Text style={{ color: '#fff', fontSize: 18}}>Cancel</Text>
                 </View>
@@ -190,11 +190,11 @@ class TakePictureScreen extends Component {
     )
   }
 
-  submitData = () => {
-    /*
-     * push() method generates a unique key every time a new child
-     * is added to the 'Receipts' firebase reference
-    */
+  /* submitData = () => {
+    
+    //push() method generates a unique key every time a new child
+    //is added to the 'Receipts' firebase reference
+    
     var newReceiptKey = firebase.database().ref('Receipts/').push().key;
 
     //write to the receipts data in the receipts list
@@ -202,9 +202,23 @@ class TakePictureScreen extends Component {
     updates['/receipts/' + newReceiptKey] = this.state.dataSource;
     console.log('Expenses data saved in firebase database');
 
-    this.props.navigation.navigate('Expenses');
+    this.props.navigation.navigate('Main');
 
     return firebase.database().ref().update(updates);
+  } */
+
+  submitData = () => {
+    db.collection('receipts').add({
+      receipt: this.state.dataSource,
+    })
+    .then(function(docRef) {
+      console.log('Document written with ID ', docRef.id);
+    })
+    .catch(function(error) {
+      console.error('Error adding document: ', error);
+    });
+
+    return this.props.navigation.navigate('Main');
   }
 
  //preview image once it has been captured

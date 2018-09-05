@@ -7,7 +7,7 @@ const ExpenseImage = (props) => {
     return(
         <Content>
             <View style={{flex: 0, justifyContent: 'center', alignItems: 'center'}}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("Camera")}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("TakePictureScreen")}>
                 <Image
                     style={{width: 300, height: 320}}
                     source={require('../../assets/addreciept/default3x.png')}

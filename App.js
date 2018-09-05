@@ -54,9 +54,6 @@ export const Dashboard = DrawerNavigator({
     AddReceiptScreen: {
       screen: AddReceiptScreen
     },
-    Camera: {
-      screen: TakePictureScreen
-    },
     //Sidebar stack
     IncomeTaxScreen: { screen: IncomeTaxScreen },
     TagsScreen: { screen: TagsScreen },
@@ -71,12 +68,15 @@ export const Dashboard = DrawerNavigator({
     contentComponent: props => <Sidebar {...props} />,
 });
 
+const CameraStack = StackNavigator({ Camera: TakePictureScreen });
+
 //create our app's navigation stack
 const App = SwitchNavigator (
   {
     AuthLoading: Loading,
     Auth: AuthStack,
     Main: Dashboard,
+    Camera: CameraStack
   },
   {
     initialRouteName: 'AuthLoading',

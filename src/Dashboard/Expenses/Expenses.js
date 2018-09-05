@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, TouchableOpacity, FlatList, ActivityIndicator, Alert } from 'react-native';
-import { Icon, Footer, FooterTab, Tab, Tabs } from 'native-base';
+import { Icon, Footer, FooterTab, Tab, Tabs, Toast } from 'native-base';
 import firebase from 'react-native-firebase';   
 import { TabBarBottom } from 'react-navigation';
 import Modal from "react-native-modal";
@@ -13,7 +13,7 @@ import ImageSlider from './components/image_slider';
 import DashboardFooter from './components/footerTabs';
 import ActivityIndicatorLoader from '../../utils/activityIndicator';
 
-var database = firebase.database();
+var database = firebase.firestore();
 
 class ExpensesScreen extends Component {
     constructor(props) {
@@ -61,41 +61,40 @@ class ExpensesScreen extends Component {
         this.getMostRecentReceipts();
     }
 
-    //retrieves all json data from the real-time database
     getAllReceipts = () => {
-        firebase.database().ref('/receipts/').once('value').then(snapshot => {
-            console.log('snapshot data ' + snapshot.val());
-            var items = [];
-            snapshot.forEach((child) => {
-                items.push({
-                    fields: child.val().fields,
-                    lineItems: child.val().lineItems,
-                    imageUrl: child.val().imageUrl,
-                    key: snapshot.key
-                });
+      firebase.firestore().collection('receipts').get().then(querySnapshot => {
+        var items = [];
+        querySnapshot.forEach((doc) => {
+            items.push({
+                key: doc.id,
+                receipt: doc.data().receipt,
+                fields: doc.data().fields,
+                lineItems: doc.data().lineItems,
+                imageUrl: doc.data().imageUrl
             });
-            this.setState({ receiptsData: items });
-            console.log('items data ' + this.state.receiptsData);
         });
+        this.setState({ receiptsData: items });
+        console.log('items data ' + this.state.receiptsData);
+      });
     }
 
     //retreives most recent expenses by setting the maximum number of receipts to return
     //from the beginning of the ordered list of results
     getMostRecentReceipts = () => {
-        firebase.database().ref('/receipts/').orderByKey().limitToLast(3).once('value').then(snapshot => {
-            console.log('snapshot data ' + snapshot.val());
-            var latestItems = [];
-            snapshot.forEach((child) => {
-                latestItems.push({
-                    fields: child.val().fields,
-                    lineItems: child.val().lineItems,
-                    imageUrl: child.val().imageUrl,
-                    key: snapshot.key
-                });
+      firebase.firestore().collection('receipts').limit(4).get().then(querySnapshot => {
+        var recentItems = [];
+        querySnapshot.forEach((doc) => {
+            recentItems.push({
+                key: doc.id,
+                receipt: doc.data().receipt,
+                fields: doc.data().fields,
+                lineItems: doc.data().lineItems,
+                imageUrl: doc.data().imageUrl
             });
-            this.setState({ mostRecentData: latestItems.reverse()});
-            console.log('latestItems data ' + this.state.mostRecentData);
         });
+        this.setState({ mostRecentData: recentItems.reverse() });
+        console.log('items data ' + this.state.mostRecentData);
+      });
     }
 
     render(item, index) {
@@ -104,7 +103,7 @@ class ExpensesScreen extends Component {
                 <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', marginTop: 75, marginBottom: 50 }}>
                     <ImageSlider />
                 </View>
-                <View style={{ flex: 2, height: 325, marginTop: 80 }}>
+                <View style={{ flex: 2, height: 325, marginTop: 80, zIndex: 1 }}>
                     <Tabs initialPage={0} tabBarUnderlineStyle={{ backgroundColor: 'orange' }}>
                         <Tab heading="ALL" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}}>
                         <View>
@@ -113,9 +112,8 @@ class ExpensesScreen extends Component {
                                 data={this.state.receiptsData}
                                 renderItem={({item:data}) => (
                                 <ListItem
-                                    title={`${data.fields.merchantname.value} ${data.fields.totalbillamount.value}`}
-                                    subtitle={data.fields.billingdate.value}
-                                    key={data.key}
+                                    title={`${data.receipt.fields.merchantname.value}`}
+                                    subtitle={`${data.receipt.fields.billingdate.value} £${data.receipt.fields.totalbillamount.value.toFixed(2)}`}
                                     onPress={() => this.props.navigation.navigate("ViewReceipt", {data})}
                                 />
                                 )}
@@ -127,13 +125,12 @@ class ExpensesScreen extends Component {
                         <Tab heading="RECENT" tabStyle={{backgroundColor: '#0893CF'}} activeTabStyle={{backgroundColor: '#0893CF'}} textStyle={{color: '#fff'}}>
                             <View>
                                 <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
-                                <FlatList
+                                  <FlatList
                                     data={this.state.mostRecentData}
                                     renderItem={({item:data}) => (
                                     <ListItem
-                                        title={`${data.fields.merchantname.value} ${data.fields.totalbillamount.value}`}
-                                        subtitle={data.fields.billingdate.value}
-                                        key={data.key}
+                                        title={`${data.receipt.fields.merchantname.value}`}
+                                        subtitle={`${data.receipt.fields.billingdate.value} £${data.receipt.fields.totalbillamount.value.toFixed(2)}`}
                                         onPress={() => this.props.navigation.navigate("ViewReceipt", {data})}
                                     />
                                     )}

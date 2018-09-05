@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, FlatList, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { Icon, Footer, FooterTab } from 'native-base';
 import firebase from 'react-native-firebase';
+import { List, ListItem } from 'react-native-elements';
 
-var database = firebase.database();
+var db = firebase.firestore();
 
 class ViewReceipt extends React.Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
@@ -25,10 +26,13 @@ class ViewReceipt extends React.Component {
         ),
     });
 
-    //delete expense from flatlist
     deleteExpense = () => {
-        //const itemData = this.props.navigation.state.params.receiptsData
-        var removeExpense = firebase.database().ref('/receipts/').child().remove();
+        var receipt_query = db.collection('receipts').where('receipt_id', '==', db.id);
+        receipt_query.get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                doc.ref.delete();
+            });
+        });
 
         return this.props.navigation.navigate('Expenses');
     }
@@ -49,48 +53,53 @@ class ViewReceipt extends React.Component {
     render(item) {
         const { params } = this.props.navigation.state;
         const data = params ? params.data : null;
+
+        //var str = "undefined";
+        //var res = str.replace("No Products Listed");
+
         return (
-            <View style={{ flex: 1, alignItems: 'center' }}>
-                <Text style={styles.company}>Company: {JSON.stringify(data.fields.merchantname.value)}</Text>
-                <Text styles={{ fontSize: 16,fontWeight: '500', marginTop: 5}}></Text>
+            <View>
+                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'space-around', marginTop: 40}}>
+                    <Text style={{ fontWeight: '500'}}>Quantity</Text>
+                    <Text style={{ fontWeight: '500'}}>Product Name</Text>
+                    <Text style={{ fontWeight: '500'}}>Price</Text>
+                </View>
 
                 {/******** LIST OF PRODUCTS + QUANTITY ********/}
-                <View style={{flexDirection: 'row' }}>
-                    <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[0].quantity)}</Text>
-                    <Text style={styles.product}>Product 1: {JSON.stringify(data.lineItems[0].productName)}</Text>
-                    <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[0].finalPrice).toFixed(2)}</Text>
-                </View>
-                <View style={{flexDirection: 'row' }}>
-                    <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[1].quantity)}</Text>
-                    <Text style={styles.product}>Product 2: {JSON.stringify(data.lineItems[1].productName)}</Text>
-                    <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[1].finalPrice).toFixed(2)}</Text>
-                </View>
-                <View style={{flexDirection: 'row' }}>
-                    <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[2].quantity)}</Text>
-                    <Text style={styles.product}>Product 3: {JSON.stringify(data.lineItems[2].productName)}</Text>
-                    <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[2].finalPrice).toFixed(2)}</Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.quantity}>Quantity: {JSON.stringify(data.lineItems[3].quantity)}</Text>
-                    <Text style={styles.product}>Product 4: {JSON.stringify(data.lineItems[3].productName)}</Text>
-                    <Text style={styles.price}>Price: £{JSON.parse(data.lineItems[3].finalPrice).toFixed(2)}</Text>
-                </View>
-
-                {/******** IMAGE OF RECEIPT ********/}   
-                <Image
-                    style={styles.preview}
-                    source={{uri: data.imageUrl}}
-                />
-
-                {/******** TOTAL BILL AMOUNT + BILLING DATE ********/}   
-                <Text style={styles.amount}>Bill Amount: £{JSON.parse(data.fields.totalbillamount.value).toFixed(2)}</Text>
-                <Text style={styles.date}>Billing Date: {JSON.stringify(data.fields.billingdate.value)}</Text>
+                <View style={styles.receiptContainer}>
+                    <View style={{flex: 0, flexDirection: 'row', justifyContent: 'space-around', marginTop: 3}}>
+                        <Text>
+                            {`${data.receipt.lineItems.quantity}`}
+                        </Text>
+                        <Text>
+                            {`${data.receipt.lineItems.productName}`}
+                        </Text>
+                        <Text>
+                            {`${data.receipt.lineItems.finalPrice}`}
+                        </Text>
+                    </View>
+                </View> 
 
                 <TouchableOpacity onPress={this.alertDeleteExpense.bind(this)}>
                     <View style={styles.deleteBtn}>
                         <Text style={{ fontSize: 16, color: '#FFF', marginTop: 8, textAlign: 'center' }}>DELETE EXPENSE</Text>
                     </View>
                 </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <View>
+                        <Text>
+                            View Receipt
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+
+                 
+                <Image
+                    style={styles.preview}
+                    source={{uri: data.receipt.imageUrl}}
+                />
+                
             </View>
         )
     }
@@ -99,6 +108,11 @@ class ViewReceipt extends React.Component {
 export default ViewReceipt;
 
 const styles = StyleSheet.create({
+    receiptContainer: {
+        borderColor: '#FFF',
+        borderWidth: 3,
+        borderRadius: 4
+    },
     company: {
         fontSize: 18,
         fontWeight: '500',
@@ -126,7 +140,11 @@ const styles = StyleSheet.create({
         height: 280,
         borderColor: '#0893CF',
         borderWidth: 3,
-        borderRadius: 4
+        borderRadius: 4,
+        flex: 0,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: 50
     },
     deleteBtn: {
         width: 150, 
