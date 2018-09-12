@@ -21,7 +21,7 @@ export default class ReportsScreen extends React.Component {
             width: '90%'
         },
         headerRight: (
-            <TouchableOpacity onPress={() => {navigation.navigate("ReceiptScreens")}}>
+            <TouchableOpacity onPress={() => {navigation.navigate("AddReceiptScreen")}}>
                 <View style={{ marginRight: 15 }}>
                     <Icon name="add" style={{fontSize: 25, color: '#A7A9AB'}} />
                 </View>

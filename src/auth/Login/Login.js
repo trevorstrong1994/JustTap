@@ -3,7 +3,6 @@ import { StyleSheet, Text, TextInput, View, Button, Image, ImageBackground, Touc
 import { Container, Header, Content, Form, Item, Input, Label, Icon, H1 } from 'native-base';
 import firebase from 'react-native-firebase';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
-import ValidationComponent from 'react-native-form-validator';
 import {withRouter} from "react-router-native";
 import styles from './styles';
 

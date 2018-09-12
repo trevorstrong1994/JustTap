@@ -190,23 +190,6 @@ class TakePictureScreen extends Component {
     )
   }
 
-  /* submitData = () => {
-    
-    //push() method generates a unique key every time a new child
-    //is added to the 'Receipts' firebase reference
-    
-    var newReceiptKey = firebase.database().ref('Receipts/').push().key;
-
-    //write to the receipts data in the receipts list
-    var updates = {};
-    updates['/receipts/' + newReceiptKey] = this.state.dataSource;
-    console.log('Expenses data saved in firebase database');
-
-    this.props.navigation.navigate('Main');
-
-    return firebase.database().ref().update(updates);
-  } */
-
   submitData = () => {
     db.collection('receipts').add({
       receipt: this.state.dataSource,

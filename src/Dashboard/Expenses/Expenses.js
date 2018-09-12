@@ -72,6 +72,7 @@ class ExpensesScreen extends Component {
                 lineItems: doc.data().lineItems,
                 imageUrl: doc.data().imageUrl
             });
+            console.log('document id ' + doc.id);
         });
         this.setState({ receiptsData: items });
         console.log('items data ' + this.state.receiptsData);

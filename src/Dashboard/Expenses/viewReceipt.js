@@ -3,6 +3,7 @@ import { StyleSheet, Platform, Image, Text, View, ScrollView, Button, FlatList, 
 import { Icon, Footer, FooterTab } from 'native-base';
 import firebase from 'react-native-firebase';
 import { List, ListItem } from 'react-native-elements';
+import styles from './styles';
 
 var db = firebase.firestore();
 
@@ -16,7 +17,7 @@ class ViewReceipt extends React.Component {
             width: '80%'
         },
         headerLeft: (
-            <TouchableOpacity onPress={() =>{navigation.navigate("Main")}}>
+            <TouchableOpacity onPress={() =>{navigation.navigate("Expenses")}}>
                 <View style={{marginLeft: 15}}>
                     <Icon name="arrow-back"
                         style={{fontSize: 25, color: '#A7A9AB'}}
@@ -27,10 +28,10 @@ class ViewReceipt extends React.Component {
     });
 
     deleteExpense = () => {
-        var receipt_query = db.collection('receipts').where('receipt_id', '==', db.id);
+        var receipt_query = db.collection('receipts');
         receipt_query.get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                doc.ref.delete();
+            querySnapshot.forEach(function(docRef) {
+                docRef.delete();
             });
         });
 
@@ -54,104 +55,70 @@ class ViewReceipt extends React.Component {
         const { params } = this.props.navigation.state;
         const data = params ? params.data : null;
 
-        //var str = "undefined";
-        //var res = str.replace("No Products Listed");
+        //function filterReceipt() {
+            var productList = data.receipt.lineItems;
+            var productItems = [];
+            var quantityItems = [];
+            var priceItems = [];
+            for (var i = 0; i < productList.length; i++) {
+
+                //var productItems = productList[i].productName;
+                //console.log('ITEM -> ' + ' ' + productItems);
+
+                //adds the product items to the new receiptItems array
+                productItems.push(productList[i].productName + "\n");
+                quantityItems.push(productList[i].quantity + "\n");
+                priceItems.push(productList[i].finalPrice.toFixed(2) + "\n");
+                //receiptItems.push(productList[i].finalPrice.toFixed(2) + "\n");
+
+                /*var productQuantity = productList[i].quantity;
+                console.log('QUANTITY -> ' + ' ' + productQuantity);
+                quantityItems.push(productList[i].quantity);*/
+
+                /*var productPrices = data.receipt.lineItems[i].finalPrice;
+                console.log('PRICE -> ' + ' ' + productPrices);
+                receiptItems.push(productList[i].finalPrice);*/
+
+                console.log(priceItems);
+            }
+
+        const companyName = JSON.stringify(data.receipt.fields.merchantname.value);
+        const productDate = JSON.stringify(data.receipt.fields.billingdate.value);
+        const receiptAmount = JSON.stringify(data.receipt.fields.totalbillamount.value);
 
         return (
             <View>
-                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'space-around', marginTop: 40}}>
-                    <Text style={{ fontWeight: '500'}}>Quantity</Text>
-                    <Text style={{ fontWeight: '500'}}>Product Name</Text>
+                {/******** LIST OF PRODUCTS + QUANTITY ********/}
+                <Text style={{ fontSize: 20, fontWeight: '500', marginTop: 20, marginBottom: 5, marginLeft: 5 }}> ITEMS </Text>
+                <View style={{flex: 0, flexDirection: 'row', marginTop: 5, marginLeft: 10}}>
+                    <Text style={{ fontWeight: '500', marginRight: 35}}>Name</Text>
+                    <Text style={{ marginRight: 15, marginLeft: 15, fontWeight: '500' }}>Quantity</Text>
                     <Text style={{ fontWeight: '500'}}>Price</Text>
                 </View>
-
-                {/******** LIST OF PRODUCTS + QUANTITY ********/}
-                <View style={styles.receiptContainer}>
-                    <View style={{flex: 0, flexDirection: 'row', justifyContent: 'space-around', marginTop: 3}}>
-                        <Text>
-                            {`${data.receipt.lineItems.quantity}`}
-                        </Text>
-                        <Text>
-                            {`${data.receipt.lineItems.productName}`}
-                        </Text>
-                        <Text>
-                            {`${data.receipt.lineItems.finalPrice}`}
-                        </Text>
-                    </View>
-                </View> 
+                <View style={{ flex: 0, flexDirection: 'row', marginTop: 5, marginLeft: 10 }}>
+                    <Text style={{ marginTop: 5 }}> {productItems}</Text>
+                    <Text style={{ marginTop: 5, marginRight: 15, marginLeft: 15 }}> {quantityItems}</Text>
+                    <Text style={{ marginTop: 5 }}> {priceItems}</Text>
+                </View>  
+                <View style={{marginLeft: 5, marginTop: 10 }}>
+                    <Text style={{ fontSize: 20, fontWeight: '500', marginBottom: 10 }}> TOTAL </Text>
+                    <Text> {JSON.parse(companyName)} </Text>
+                    <Text> {JSON.parse(productDate)} </Text>
+                    <Text> £{JSON.parse(receiptAmount).toFixed(2)} </Text>
+                </View>  
+                <Image
+                    style={styles.preview}
+                    source={{uri: data.receipt.imageUrl}}
+                />
 
                 <TouchableOpacity onPress={this.alertDeleteExpense.bind(this)}>
                     <View style={styles.deleteBtn}>
                         <Text style={{ fontSize: 16, color: '#FFF', marginTop: 8, textAlign: 'center' }}>DELETE EXPENSE</Text>
                     </View>
                 </TouchableOpacity>
-
-                <TouchableOpacity>
-                    <View>
-                        <Text>
-                            View Receipt
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-
-                 
-                <Image
-                    style={styles.preview}
-                    source={{uri: data.receipt.imageUrl}}
-                />
-                
             </View>
         )
     }
 }
 
 export default ViewReceipt;
-
-const styles = StyleSheet.create({
-    receiptContainer: {
-        borderColor: '#FFF',
-        borderWidth: 3,
-        borderRadius: 4
-    },
-    company: {
-        fontSize: 18,
-        fontWeight: '500',
-        marginTop: 10
-    },
-    quantity: {
-        fontSize: 16,
-    },
-    product: {
-        fontSize: 16
-    },
-    price: {
-        fontSize: 16,
-    },
-    amount: {
-        fontSize: 20,
-        fontWeight: '500'
-    },
-    date: {
-        fontSize: 20,
-        fontWeight: '500'
-    },
-    preview: {
-        width: 280,
-        height: 280,
-        borderColor: '#0893CF',
-        borderWidth: 3,
-        borderRadius: 4,
-        flex: 0,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        marginTop: 50
-    },
-    deleteBtn: {
-        width: 150, 
-        height: 40, 
-        backgroundColor: '#FF4D4D',
-        marginTop: 30,
-        borderColor: '#FFF',
-        borderRadius: 5
-    }
-});
